@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public class Object_thorn : MonoBehaviour
 {
     BasicControler player;
     // Start is called before the first frame update
