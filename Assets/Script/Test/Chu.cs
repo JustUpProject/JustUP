@@ -20,20 +20,17 @@ public class Chu : MonoBehaviour
         {
             tick = 0;
             direction = !direction;
-            Debug.Log("Æ½");
         }
 
         if (direction == true)
         {
             transform.Rotate(Vector3.forward * speed * Time.deltaTime);
-            Debug.Log("¿À¸¥ÂÊÀ¸·Î µ·´Ù");
 
 
         }
         else if(direction == false)
         {
             transform.Rotate(Vector3.back * speed * Time.deltaTime);
-            Debug.Log("¿ÞÂÊÀ¸·Î µ·´Ù");
 
         }
     }

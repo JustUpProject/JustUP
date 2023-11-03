@@ -4,7 +4,8 @@ using UnityEngine.UI;
 
 public class BasicControler : MonoBehaviour
 {
-
+    [SerializeField] private LayerMask floorMask;
+    [SerializeField] private LayerMask wallMask;
     SlidingPartical partical;
 
     private bool direction = false; //true = 오른쪽으로 이동, false = 왼쪽으로 이동
@@ -45,7 +46,6 @@ public class BasicControler : MonoBehaviour
 
         if (isSlidingOnWall == true && FloorCheck() == false)
         {
-            Debug.Log("!");
             return;
         }
 
@@ -87,7 +87,6 @@ public class BasicControler : MonoBehaviour
 
     private void WallSliding()
     {
-        Debug.Log("벽타기");
         isSlidingOnWall = true;
         GetComponent<Rigidbody2D>().gravityScale = slidingSpeed;
         if (partical.isParticleCycle == true)
@@ -109,7 +108,7 @@ public class BasicControler : MonoBehaviour
         Vector2 origin = this.transform.position;
         Vector2 direction = Vector2.down;
 
-        RaycastHit2D[] hits = Physics2D.CircleCastAll(origin, 0.1f, direction, rayLengthFloor);
+        RaycastHit2D[] hits = Physics2D.CircleCastAll(origin, 0.1f, direction, rayLengthFloor, floorMask);
 
         foreach (RaycastHit2D hit in hits)
         {
@@ -128,13 +127,12 @@ public class BasicControler : MonoBehaviour
         Vector2 origin = this.transform.position;
 
         Vector2 direction = Vector2.right;
-        RaycastHit2D hits = Physics2D.Raycast(origin, direction, rayLength);
+        RaycastHit2D hits = Physics2D.Raycast(origin, direction, rayLength, wallMask);
 
         if(hits.collider != null)
         {
             if (hits.collider.CompareTag("Wall"))
             {
-                Debug.Log("rightWall");
                 InitJump();
                 
                 wallPos = hits.collider.transform.position;
@@ -148,13 +146,12 @@ public class BasicControler : MonoBehaviour
         }
         direction = Vector2.left;
 
-        hits = Physics2D.Raycast(origin, direction, rayLength);
+        hits = Physics2D.Raycast(origin, direction, rayLength, wallMask);
 
         if(hits.collider != null)
         {
             if (hits.collider.CompareTag("Wall"))
             {
-                Debug.Log("leftWall");
                 InitJump();
                 
                 wallPos = hits.collider.transform.position;
