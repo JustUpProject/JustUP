@@ -19,8 +19,10 @@ public class BasicMonster : MonoBehaviour
 
     public MonsterType type;
     private bool direction = false; // true = 오른쪽 x++, false = 왼쪽 x--
+    [SerializeField]
     public float speedMonster;
-    public float sizeMonster;  // Move함수에서 사용할 연산에 들어갈 몬스터 크기
+    [SerializeField]
+    private float sizeMonster;  // Move함수에서 사용할 연산에 들어갈 몬스터 크기
 
     // Start is called before the first frame update
     void Start()
@@ -31,7 +33,6 @@ public class BasicMonster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(player.PlayerHealth);
 
         TurnMonster();
         MoveMonster();
@@ -82,23 +83,31 @@ public class BasicMonster : MonoBehaviour
     private void Turn()
     {
         direction = !direction;
-        Debug.Log("돌기");
     }
 
     private void TurnMonster()
     {
         Vector2 originR = transform.position + new Vector3(sizeMonster, 0, 0);
-        Vector2 originL = transform.position - new Vector3(sizeMonster, 0, 0); ;
+        Vector2 originL = transform.position - new Vector3(sizeMonster, 0, 0);
         Vector2 direction = Vector2.down;
 
-        RaycastHit2D hitR = Physics2D.Raycast(originR, direction);
-        RaycastHit2D hitL = Physics2D.Raycast(originL, direction);
+        RaycastHit2D hitR = Physics2D.Raycast(originR, direction, 1);
+        RaycastHit2D hitL = Physics2D.Raycast(originL, direction, 1);
 
-        if (!hitR.collider.CompareTag("Floor") || !hitL.collider.CompareTag("Floor"))
+        if(hitR.collider == null)
         {
             Turn();
-            Debug.Log("바닥 없음");
+            //if (!hitR.collider.CompareTag("Floor") || !hitL.collider.CompareTag("Floor"))
+            //{
+            //    Turn();
+            //    Debug.Log("바닥 없음");
 
+            //}
         }
+        if(hitL.collider == null)
+        {
+            Turn();
+        }
+        
     }
 }
