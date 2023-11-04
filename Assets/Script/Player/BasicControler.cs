@@ -6,17 +6,19 @@ public class BasicControler : MonoBehaviour
 {
 
     SlidingPartical partical;
+    
+    [SerializeField]
+    private bool direction = false; //true = ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½, false = ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
 
-    private bool direction = false; //true = ¿À¸¥ÂÊÀ¸·Î ÀÌµ¿, false = ¿ÞÂÊÀ¸·Î ÀÌµ¿
-    private bool firstJumpAble = true; //ÇÃ·¹ÀÌ¾îÀÇ Á¡ÇÁ °¡´É ¿©ºÎ Ã¼Å©
-    private bool doubleJumpAble = true; //ÇÃ·¹ÀÌ¾îÀÇ ´õºí Á¡ÇÁ °¡´É ¿©ºÎ Ã¼Å©
-    private bool isSlidingOnWall = false; //ÇÃ·¹ÀÌ¾î°¡ º®¿¡ ´ê¾ÆÀÖ´ÂÁö ¿©ºÎ Ã¼Å©
+    private bool firstJumpAble = true; //ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¼Å©
+    private bool doubleJumpAble = true; //ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¼Å©
+    private bool isSlidingOnWall = false; //ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¼Å©
 
     public float rayLength;
     public float rayLengthFloor;
     public float moveSpeed;
     public float jumpPower;
-    public float slidingSpeed; //½½¶óÀÌµùÀ¸·Î ¶³¾îÁö´Â ¼Óµµ
+    public float slidingSpeed; //ï¿½ï¿½ï¿½ï¿½ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Óµï¿½
 
     private int playerHealth;
     public int PlayerHealth
@@ -25,7 +27,7 @@ public class BasicControler : MonoBehaviour
         set { playerHealth = value; }
     }
 
-    Vector3 wallPos; //Ãæµ¹ÇÑ º®ÀÇ À§Ä¡ ÀúÀå
+    Vector3 wallPos; //ï¿½æµ¹ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½
 
 
     void Start()
@@ -45,7 +47,6 @@ public class BasicControler : MonoBehaviour
 
         if (isSlidingOnWall == true && FloorCheck() == false)
         {
-            Debug.Log("!");
             return;
         }
 
@@ -87,7 +88,6 @@ public class BasicControler : MonoBehaviour
 
     private void WallSliding()
     {
-        Debug.Log("º®Å¸±â");
         isSlidingOnWall = true;
         GetComponent<Rigidbody2D>().gravityScale = slidingSpeed;
         if (partical.isParticleCycle == true)
@@ -134,7 +134,6 @@ public class BasicControler : MonoBehaviour
         {
             if (hits.collider.CompareTag("Wall"))
             {
-                Debug.Log("rightWall");
                 InitJump();
                 
                 wallPos = hits.collider.transform.position;
@@ -154,7 +153,6 @@ public class BasicControler : MonoBehaviour
         {
             if (hits.collider.CompareTag("Wall"))
             {
-                Debug.Log("leftWall");
                 InitJump();
                 
                 wallPos = hits.collider.transform.position;
@@ -192,5 +190,10 @@ public class BasicControler : MonoBehaviour
         {
             SceneManager.LoadScene("GameOver");
         }
+    }
+
+    public bool getPrivateDir()
+    {
+        return direction;
     }
 }
