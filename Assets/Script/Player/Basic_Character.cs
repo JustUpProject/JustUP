@@ -7,21 +7,21 @@ public class Basic_Character : MonoBehaviour
     SlidingPartical partical;
     public Slider slider;
 
-    private bool direction = true; //true = ¿À¸¥ÂÊÀ¸·Î ÀÌµ¿, false = ¿ÞÂÊÀ¸·Î ÀÌµ¿
-    private bool isGrounded = false; //ÇÃ·¹ÀÌ¾î°¡ ¶¥¿¡ ´ê¾ÆÀÖ´ÂÁö Ã¼Å©
-    private bool firstJumpAble = true; //ÇÃ·¹ÀÌ¾îÀÇ Á¡ÇÁ °¡´É ¿©ºÎ Ã¼Å©
-    private bool doubleJumpAble = true; //ÇÃ·¹ÀÌ¾îÀÇ ´õºí Á¡ÇÁ °¡´É ¿©ºÎ Ã¼Å©
-    private bool isSlidingOnWall = false; //ÇÃ·¹ÀÌ¾î°¡ º®¿¡ ´ê¾ÆÀÖ´ÂÁö ¿©ºÎ Ã¼Å©
+    private bool direction = true; //true = ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½, false = ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
+    private bool isGrounded = false; //ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ï¿½ï¿½ Ã¼Å©
+    private bool firstJumpAble = true; //ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¼Å©
+    private bool doubleJumpAble = true; //ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¼Å©
+    private bool isSlidingOnWall = false; //ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¼Å©
     private bool action = true;
 
 
     public float rayLength;
     public float moveSpeed;
     public float jumpPower;
-    public float slidingSpeed; //½½¶óÀÌµùÀ¸·Î ¶³¾îÁö´Â ¼Óµµ
-    public float feverJump; //ÇÇ¹ö Á¡ÇÁ ³ôÀÌ
+    public float slidingSpeed; //ï¿½ï¿½ï¿½ï¿½ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Óµï¿½
+    public float feverJump; //ï¿½Ç¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-    Vector3 wallPos; //Ãæµ¹ÇÑ º®ÀÇ À§Ä¡ ÀúÀå
+    Vector3 wallPos; //ï¿½æµ¹ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½
 
 
     void Start()
@@ -46,7 +46,7 @@ public class Basic_Character : MonoBehaviour
 
     public void GetStarShard()
     {
-        Debug.Log("ÇÇÆÛ°ÔÀÌÁö");
+        Debug.Log("ï¿½ï¿½ï¿½Û°ï¿½ï¿½ï¿½ï¿½ï¿½");
         slider.value += 0.25f;
         if (slider.value >= 1.0f)
         {
