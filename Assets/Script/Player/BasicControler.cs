@@ -1,6 +1,8 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static UnityEngine.UI.Image;
 
 public class BasicControler : MonoBehaviour
 {
@@ -40,7 +42,7 @@ public class BasicControler : MonoBehaviour
 
     void Update()
     {
-
+        isSlidingOnWall = false;
         WallCheck();  
         FloorCheck();
         JumpPlayer();
@@ -96,7 +98,7 @@ public class BasicControler : MonoBehaviour
 
     }
 
-    private void InitJump()
+    public void InitJump()
     {
         firstJumpAble = true;
         doubleJumpAble = true;
@@ -107,13 +109,16 @@ public class BasicControler : MonoBehaviour
     {
 
 
-        Vector2 origin = this.transform.position;
+        Vector2 origin = this.transform.position + new Vector3(0, -0.35f, 0);
         Vector2 direction = Vector2.down;
 
-        RaycastHit2D[] hits = Physics2D.CircleCastAll(origin, 0.1f, direction, rayLengthFloor, floorMask);
+        RaycastHit2D[] hits = Physics2D.BoxCastAll(origin, new Vector3(0.3f, 0.01f, 0), 0.0f, direction, rayLengthFloor);
+        
+        
 
         foreach (RaycastHit2D hit in hits)
         {
+            
             if (hit.collider.CompareTag("Floor"))
             {
                 InitJump();
@@ -122,6 +127,20 @@ public class BasicControler : MonoBehaviour
         }
 
         return false;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Vector2 origin = this.transform.position + new Vector3(0, -0.37f, 0);
+        Vector2 direction = Vector2.down;
+
+        Gizmos.color = Color.yellow;
+        RaycastHit2D[] hits = Physics2D.BoxCastAll(origin, new Vector3(0.5f, 0.01f, 0), 0.0f, direction, rayLengthFloor);
+
+        foreach(RaycastHit2D hit in hits)
+        {
+            Gizmos.DrawRay(hit.point, hit.normal * 0.1f);
+        }
     }
 
     private int WallCheck()
