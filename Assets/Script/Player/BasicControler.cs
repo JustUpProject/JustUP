@@ -13,16 +13,19 @@ public class BasicControler : MonoBehaviour
     [SerializeField]
     private bool direction = false; //true = ���������� �̵�, false = �������� �̵�
 
+    GameData gameData;
+
     private bool firstJumpAble = true; //�÷��̾��� ���� ���� ���� üũ
     private bool doubleJumpAble = true; //�÷��̾��� ���� ���� ���� ���� üũ
     private bool isSlidingOnWall = false; //�÷��̾ ���� ����ִ��� ���� üũ
+    private bool velocityInit = true;
 
     public float rayLength;
     public float rayLengthFloor;
     public float moveSpeed;
     public float jumpPower;
     public float slidingSpeed; //�����̵����� �������� �ӵ�
-
+    
     private int playerHealth;
     public int PlayerHealth
     {
@@ -35,8 +38,10 @@ public class BasicControler : MonoBehaviour
 
     void Start()
     {
-        playerHealth = 3;
+        gameData = Resources.Load<GameData>("ScriptableObject/Datas");
         partical = GetComponent<SlidingPartical>();
+        transform.position = gameData.SavePoint;
+        
     }
 
 
@@ -52,7 +57,7 @@ public class BasicControler : MonoBehaviour
         {
             return;
         }
-
+        velocityInit = true;
         MovePlayer();
     }
 
@@ -91,7 +96,11 @@ public class BasicControler : MonoBehaviour
 
     private void WallSliding()
     {
+        if(velocityInit) { GetComponent<Rigidbody2D>().velocity = Vector3.zero; }
+
+        velocityInit = false;
         isSlidingOnWall = true;
+
         GetComponent<Rigidbody2D>().gravityScale = slidingSpeed;
         if (partical.isParticleCycle == true)
             partical.SpwanParticle();
@@ -108,12 +117,10 @@ public class BasicControler : MonoBehaviour
     private bool FloorCheck()
     {
 
-
         Vector2 origin = this.transform.position + new Vector3(0, -0.35f, 0);
         Vector2 direction = Vector2.down;
 
         RaycastHit2D[] hits = Physics2D.BoxCastAll(origin, new Vector3(0.3f, 0.01f, 0), 0.0f, direction, rayLengthFloor);
-        
         
 
         foreach (RaycastHit2D hit in hits)
