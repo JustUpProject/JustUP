@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SlidingPartical : MonoBehaviour
 {
-    Basic_Character player;
+    BasicControler player;
 
     public GameObject particle;
     public bool isParticleCycle = false;
@@ -14,7 +14,7 @@ public class SlidingPartical : MonoBehaviour
     void Start()
     {
         InvokeRepeating("IsParticle", 0.0f, setParticleTime);
-        player = GetComponent<Basic_Character>();
+        player = GetComponent<BasicControler>();
         //player = FindObjectOfType<Basic_Character>();
     }
 

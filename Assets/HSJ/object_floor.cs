@@ -7,7 +7,6 @@ using UnityEngine;
 public class object_floor : MonoBehaviour
 {
     public GameObject player;
-    public LayerMask layerMask;
     Vector2 thisPos;
     Vector2 playerPos;
     BoxCollider2D boxCollider2D;
