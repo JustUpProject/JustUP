@@ -31,7 +31,6 @@ public class FallingStone : MonoBehaviour
 
         RaycastHit2D hit = Physics2D.Raycast(origin, direction);
 
-        Debug.Log(hit.collider.tag);
 
         if (hit.collider.CompareTag("Player"))
         {
