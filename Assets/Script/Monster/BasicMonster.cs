@@ -28,6 +28,7 @@ public class BasicMonster : MonoBehaviour
     void Start()
     {
         player = FindObjectOfType<BasicControler>();
+        
     }
 
     // Update is called once per frame
