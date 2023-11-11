@@ -70,7 +70,7 @@ public class BasicControler : MonoBehaviour
             transform.position += new Vector3(moveSpeed * Time.deltaTime, 0, 0);
             
         }
-        else if (direction == false)
+        else if (direction == false) //변경사항 &&FloorCheck()
         {
             transform.position -= new Vector3(moveSpeed * Time.deltaTime, 0, 0);
             
