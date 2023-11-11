@@ -22,7 +22,6 @@ public class SlidingPartical : MonoBehaviour
     private void IsParticle()
     {
         isParticleCycle = true;
-        Debug.Log("Cycle");
     }
 
     public void SpwanParticle()

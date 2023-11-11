@@ -3,43 +3,42 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class object_waterR : MonoBehaviour
+public class object_water : MonoBehaviour
 {
-    BasicControler basicControler;
+    BasicControler player;
     private bool playerDir;
     private float variableSpeed;
+    private float variableSpeedN; // 위 플로트와 반대값
     private float originSpeed;
 
-    public GameObject player;
     public bool thisDir = false; //false = R -> L true = L -> R
     
     // Start is called before the first frame update
     void Start()
     {
-        basicControler = player.GetComponent<BasicControler>();
-        variableSpeed = basicControler.moveSpeed*0.5f;
-        originSpeed = basicControler.moveSpeed;
+        player = FindObjectOfType<BasicControler>();
+        variableSpeed = player.moveSpeed*1.5f;
+        variableSpeedN = player.moveSpeed * 0.5f;
+        originSpeed = player.moveSpeed;
     }
 
     // Update is called once per frame
     void Update()
     {
-        playerDir = basicControler.getPrivateDir();
+        playerDir = player.getPrivateDir();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
             if (playerDir == thisDir)
             {
-                basicControler.moveSpeed = basicControler.moveSpeed+variableSpeed;
-                Debug.Log("fff");
+                player.moveSpeed = variableSpeed;
             }
             else 
             {
-                basicControler.moveSpeed -= variableSpeed;
-                Debug.Log("slow");
+                player.moveSpeed = variableSpeedN;
             }
         }
     }
@@ -47,7 +46,7 @@ public class object_waterR : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            basicControler.moveSpeed = originSpeed;
+            player.moveSpeed = originSpeed;
             Debug.Log(originSpeed);
         }
             
