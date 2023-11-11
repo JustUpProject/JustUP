@@ -6,18 +6,22 @@ using UnityEngine;
 
 public class object_floor : MonoBehaviour
 {
-    public GameObject player;
+    BasicControler player;
     public LayerMask layerMask;
+
     Vector2 thisPos;
     Vector2 playerPos;
     BoxCollider2D boxCollider2D;
 
     void Start()
     {
+        player = FindObjectOfType<BasicControler>();
         playerPos = player.transform.position;
         thisPos = transform.position;
         boxCollider2D = GetComponent<BoxCollider2D>();
         boxCollider2D.enabled = false;
+
+
     }
 
     void Update()
@@ -30,7 +34,7 @@ public class object_floor : MonoBehaviour
 
     private void checkPlayerPos(Vector2 playerPos)
     {
-        if (playerPos.y > thisPos.y)
+        if (playerPos.y > thisPos.y+0.05f)
         {
             transform.gameObject.tag = "Floor";
             boxCollider2D.enabled = true;
