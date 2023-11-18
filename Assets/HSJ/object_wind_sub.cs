@@ -13,6 +13,7 @@ public class object_wind_sub : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        canMoved = false;
         player = FindObjectOfType<BasicControler>();
         moveSpeed = player.moveSpeed;
         scale = transform.localScale.y/2;

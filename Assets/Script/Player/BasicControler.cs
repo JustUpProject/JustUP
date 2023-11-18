@@ -10,7 +10,9 @@ public class BasicControler : MonoBehaviour
     [SerializeField] private LayerMask floorMask;
     [SerializeField] private LayerMask wallMask;
     SlidingPartical partical;
-    
+
+    object_wind_sub objectwind;
+
     [SerializeField]
     private bool direction = false; //true = ���������� �̵�, false = �������� �̵�
 
@@ -54,7 +56,7 @@ public class BasicControler : MonoBehaviour
         JumpPlayer();
 
 
-        if ((isSlidingOnWall == true && FloorCheck() == false )|| objectwind.canMoved == true)
+        if ((isSlidingOnWall == true && FloorCheck() == false ) || objectwind.canMoved == true) // 
         {
             return;
         }

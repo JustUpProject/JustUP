@@ -8,7 +8,6 @@ public class Item_hide : Basic_Item
     {
         itemCode = 7;
         gameData = Resources.Load<GameData>("ScriptableObject/Datas");
-
     }
     
 }
