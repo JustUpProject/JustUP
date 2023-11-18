@@ -14,6 +14,7 @@ public class BasicControler : MonoBehaviour
     private bool direction = false; //true = ���������� �̵�, false = �������� �̵�
 
     GameData gameData;
+    object_wind_sub objectwind;
 
     private bool firstJumpAble = true; //�÷��̾��� ���� ���� ���� üũ
     private bool doubleJumpAble = true; //�÷��̾��� ���� ���� ���� ���� üũ
@@ -41,7 +42,7 @@ public class BasicControler : MonoBehaviour
         gameData = Resources.Load<GameData>("ScriptableObject/Datas");
         partical = GetComponent<SlidingPartical>();
         transform.position = gameData.SavePoint;
-        
+        objectwind = FindObjectOfType<object_wind_sub>();
     }
 
 
@@ -53,7 +54,7 @@ public class BasicControler : MonoBehaviour
         JumpPlayer();
 
 
-        if (isSlidingOnWall == true && FloorCheck() == false)
+        if ((isSlidingOnWall == true && FloorCheck() == false )|| objectwind.canMoved == true)
         {
             return;
         }
