@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -41,7 +42,7 @@ public class BasicControler : MonoBehaviour
         gameData = Resources.Load<GameData>("ScriptableObject/Datas");
         partical = GetComponent<SlidingPartical>();
         transform.position = gameData.SavePoint;
-        
+        objectwind = FindObjectOfType<object_wind_sub>();
     }
 
 
@@ -53,7 +54,7 @@ public class BasicControler : MonoBehaviour
         JumpPlayer();
 
 
-        if (isSlidingOnWall == true && FloorCheck() == false)
+        if ((isSlidingOnWall == true && FloorCheck() == false )|| objectwind.canMoved == true)
         {
             return;
         }
@@ -146,7 +147,7 @@ public class BasicControler : MonoBehaviour
 
         foreach(RaycastHit2D hit in hits)
         {
-            Gizmos.DrawRay(hit.point, hit.normal * 0.1f);
+            Gizmos.DrawCube(hit.point, new Vector3(0.5f, 0.01f, 0));
         }
     }
 
