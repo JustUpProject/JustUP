@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,7 +15,6 @@ public class BasicControler : MonoBehaviour
     private bool direction = false; //true = ���������� �̵�, false = �������� �̵�
 
     GameData gameData;
-    object_wind_sub objectwind;
 
     private bool firstJumpAble = true; //�÷��̾��� ���� ���� ���� üũ
     private bool doubleJumpAble = true; //�÷��̾��� ���� ���� ���� ���� üũ
@@ -147,7 +147,7 @@ public class BasicControler : MonoBehaviour
 
         foreach(RaycastHit2D hit in hits)
         {
-            Gizmos.DrawRay(hit.point, hit.normal * 0.1f);
+            Gizmos.DrawCube(hit.point, new Vector3(0.5f, 0.01f, 0));
         }
     }
 
