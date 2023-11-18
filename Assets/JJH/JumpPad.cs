@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class JumpPad : MonoBehaviour
 {
-    public float jumpPower = 10f; // 점프 힘 조절
+    [SerializeField] private float jumpPower = 10f; // 점프 힘 조절
     BasicControler player;
 
     private void Start()
