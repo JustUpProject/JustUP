@@ -56,7 +56,7 @@ public class BasicControler : MonoBehaviour
         JumpPlayer();
 
 
-        if ((isSlidingOnWall == true && FloorCheck() == false ) || objectwind.canMoved == true) // 
+        if ((isSlidingOnWall == true && FloorCheck() == false ) || objectwind.canMoved == true)
         {
             return;
         }
