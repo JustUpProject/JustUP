@@ -32,15 +32,14 @@ public class BasicMonster : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
-
         TurnMonster();
         MoveMonster();
 
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    public void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.tag == "Player")
         {
@@ -68,7 +67,7 @@ public class BasicMonster : MonoBehaviour
         }
     }
 
-    public void MoveMonster()
+    protected virtual void MoveMonster()
     {
         if(direction)
         {
@@ -81,12 +80,12 @@ public class BasicMonster : MonoBehaviour
 
     }
 
-    private void Turn()
+    protected void Turn()
     {
         direction = !direction;
     }
 
-    private void TurnMonster()
+    protected void TurnMonster()
     {
         Vector2 originR = transform.position + new Vector3(sizeMonster, 0, 0);
         Vector2 originL = transform.position - new Vector3(sizeMonster, 0, 0);
@@ -98,12 +97,7 @@ public class BasicMonster : MonoBehaviour
         if(hitR.collider == null)
         {
             Turn();
-            //if (!hitR.collider.CompareTag("Floor") || !hitL.collider.CompareTag("Floor"))
-            //{
-            //    Turn();
-            //    Debug.Log("¹Ù´Ú ¾øÀ½");
-
-            //}
+            
         }
         if(hitL.collider == null)
         {
