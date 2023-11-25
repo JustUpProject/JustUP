@@ -7,44 +7,31 @@ using UnityEngine;
 
 public class object_portal : MonoBehaviour
 {
-    BasicControler player;
-    public GameObject otherPortal; // 다른 포탈
-    public Transform portalPoint; // 포탈을 통해 이동할 위치
-    public float teleportCooldown = 0f;
+    public Transform otheportal; // 다른 포탈을 지정하기 위한 변수
+    private static bool isTeleporting = false; // 정적 변수로 변경
 
-    bool teleportable = false;
-
-
-    private void Start()
-    {
-        player = FindObjectOfType<BasicControler>();
-        teleportCooldown += Time.deltaTime;
-    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag("Player")) // 플레이어가 포탈에 접촉하면
+        if (collision.gameObject.CompareTag("Player") && !isTeleporting) // 플레이어가 포탈에 물리적 충돌하고 현재 텔레포트 중이 아닐 때
         {
-            if (teleportCooldown >= 1f)
-            {
-                teleportable = true;
-                Teleport(collision.collider.gameObject); // 플레이어를 이동시킴                                               
-
-            }
-
+            isTeleporting = true;
+            Teleport(collision.transform);
         }
-
     }
 
-    private void Teleport(GameObject objectToTeleport)
+    private void Teleport(Transform target)
     {
-        if (teleportable)
-        {
-            objectToTeleport.transform.position = portalPoint.position;
-            // 다른 포탈의 portalPoint로 이동시킴
-            teleportCooldown = 0f;
-            teleportable = false;
-        }
+        // 플레이어의 상대적인 Y 좌표를 계산
+        float playerY = target.position.y - transform.position.y;
 
+        target.position = new Vector3(otheportal.position.x, otheportal.position.y + playerY, otheportal.position.z);
+
+        StartCoroutine(ResetTeleportFlag());
     }
 
+    private System.Collections.IEnumerator ResetTeleportFlag()
+    {
+        yield return new WaitForSeconds(0.5f); // 텔레포트 후 잠시 대기 (필요에 따라 조절)
+        isTeleporting = false;
+    }
 }
