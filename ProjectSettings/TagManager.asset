@@ -8,6 +8,8 @@ TagManager:
   - Wall
   - StarShard
   - Object_Ice
+  - portal_A
+  - portal_B
   layers:
   - Default
   - TransparentFX

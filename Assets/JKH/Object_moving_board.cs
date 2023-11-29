@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Object_moving_board : MonoBehaviour
 {
-    public float moveSpeed = 3f;
+    public float moveSpeed = 2f;
 
     // Update is called once per frame
     void Update()
     {
-        float movement = Mathf.PingPong(Time.time * moveSpeed, 6f) - 3f;
+        float movement = Mathf.PingPong(Time.time * moveSpeed, 4f) - 2f;
 
         Vector3 currentPosition = transform.position;
 
