@@ -83,6 +83,7 @@ public class BasicMonster : MonoBehaviour
     protected void Turn()
     {
         direction = !direction;
+        OnDirectionChanged();
     }
 
     protected void TurnMonster()
@@ -105,4 +106,10 @@ public class BasicMonster : MonoBehaviour
         }
         
     }
+
+    protected virtual void OnDirectionChanged()
+    {
+        // This method can be overridden by derived classes
+    }
+
 }
