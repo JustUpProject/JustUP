@@ -41,12 +41,16 @@ public class BasicControler : MonoBehaviour
 
     void Start()
     {
+        playerHealth = 3;
         gameData = Resources.Load<GameData>("ScriptableObject/Datas");
         partical = GetComponent<SlidingPartical>();
+
+        //if(partical == null)
+        //    partical = this.AddComponent<SlidingPartical>();
+
         transform.position = gameData.SavePoint;
         objectwind = FindObjectOfType<object_wind_sub>();
     }
-
 
     void Update()
     {
