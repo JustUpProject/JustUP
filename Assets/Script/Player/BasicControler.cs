@@ -157,7 +157,7 @@ public class BasicControler : MonoBehaviour
         }
     }
 
-    private int WallCheck()
+    public int WallCheck()
     {
         Vector2 origin = this.transform.position;
 
@@ -225,7 +225,10 @@ public class BasicControler : MonoBehaviour
             SceneManager.LoadScene("GameOver");
         }
     }
-
+    public void SetDir()
+    {
+       direction = !direction;
+    }
     public bool getPrivateDir()
     {
         return direction;

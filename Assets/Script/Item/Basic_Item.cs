@@ -27,7 +27,6 @@ public class Basic_Item : MonoBehaviour
                     Debug.Log("아이템 트리거");
                     break;
                 }
-                
             }
         }
     }

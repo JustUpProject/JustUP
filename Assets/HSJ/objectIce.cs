@@ -6,24 +6,29 @@ using UnityEngine;
 using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 using static UnityEngine.UI.Image;
 
-public class object_ice : MonoBehaviour
+public class objectIce : MonoBehaviour
 {
     [SerializeField] private LayerMask playerMask;
-    BasicControler player;
+    private BasicControler player;
 
-    float originSlide;
-    float changedSlide;
-    bool checkPlayer;
-    float moveSpeedPlayer;
-    float changedMoveSpeed;
+    private float originSlide;
+    private float changedSlide;
+    private bool checkPlayer;
+    private float moveSpeedPlayer;
+    private float changedMoveSpeed;
 
     public bool isWall = true; //wall형태로 배치할려면 true체크표시 아닐시 false체크해제
     public bool dir=false; //false = L배치 true =R배치
     public float rayLength;
     // Start is called before the first frame update
+
+    private void Awake()
+    {
+        player = FindObjectOfType<BasicControler>();
+    }
+
     void Start()
     {
-        player =    FindObjectOfType<BasicControler>();
         originSlide = player.slidingSpeed;
         changedSlide = 1.0f;
         moveSpeedPlayer = player.moveSpeed;
