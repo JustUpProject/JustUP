@@ -25,16 +25,19 @@ public class settings_button : MonoBehaviour
     {
         if (resetting == false)
         {
+            Debug.Log(resetting);
             resetting = true;
-            setting.SetActive(true);
             Time.timeScale = 0f;
+            setting.SetActive(true);
+            
         }
 
-        else
+        else if(resetting == true)
         {
+            Debug.Log("1");
             resetting = false;
-            setting.SetActive(false);
             Time.timeScale = 1.0f;
+            setting.SetActive(false);         
         }
  
     }
