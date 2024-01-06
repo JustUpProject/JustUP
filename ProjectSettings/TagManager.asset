@@ -10,6 +10,7 @@ TagManager:
   - Object_Ice
   - portal_A
   - portal_B
+  - Monster
   layers:
   - Default
   - TransparentFX

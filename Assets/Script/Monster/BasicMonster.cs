@@ -7,7 +7,7 @@ using UnityEngine;
 public class BasicMonster : MonoBehaviour
 {
     BasicControler player;
-
+    itemShield itemshield;
 
     [System.Serializable]
     public enum MonsterType
@@ -28,7 +28,7 @@ public class BasicMonster : MonoBehaviour
     void Start()
     {
         player = FindObjectOfType<BasicControler>();
-        
+        itemshield = FindObjectOfType<itemShield>();
     }
 
     // Update is called once per frame
@@ -63,7 +63,14 @@ public class BasicMonster : MonoBehaviour
 
             }
 
-            player.PlayerHit();
+            if(itemshield.onShield ==false)
+            {
+                player.PlayerHit();
+            }
+            else
+            {
+                itemshield.onShield = false;
+            }
         }
     }
 

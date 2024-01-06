@@ -4,20 +4,28 @@ using UnityEngine;
 
 public class object_wind_sub : MonoBehaviour
 {
-    BasicControler player;
-    float moveSpeed;
-    Vector3 targetedPos;
-    Vector3 playerPos;
+    private BasicControler player;
+    private Rigidbody2D playerRb;
+    private float moveSpeed;
+    private Vector3 targetedPos;
+    private Vector3 playerPos;
+    private float scale;
+
     public bool canMoved = false;
-    float scale;
 
     // Start is called before the first frame update
+    private void Awake()
+    {
+        player = FindObjectOfType<BasicControler>();
+        playerRb = player.GetComponent<Rigidbody2D>();
+    }
+
     void Start()
     {
         canMoved = false;
-        player = FindObjectOfType<BasicControler>();
         moveSpeed = player.moveSpeed;
-        scale = transform.localScale.y/2+0.3f;
+        scale = transform.localScale.y/2f;
+        playerPos = Vector3.zero;
         targetedPos = new Vector3(transform.position.x,transform.position.y+(scale),transform.position.z);
     }
     private void Update()
@@ -25,16 +33,26 @@ public class object_wind_sub : MonoBehaviour
         playerPos = transform.position;
     }
 
+    private void FixedUpdate()
+    {
+        if (canMoved)
+        {
+            MoveToPosition(targetedPos);
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("Player"))
+        if (collision.CompareTag("Player"))
+        {
             canMoved = true;
+        }
+            
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            MoveToPosition(targetedPos);
             canMoved = false;
         }
     }
@@ -55,18 +73,12 @@ public class object_wind_sub : MonoBehaviour
             {
                 yield break; // 코루틴 종료
             }
-
-            if(targetPosition.y - playerPos.y < 0.5f) 
-            {
-                // 보간이 완료되면 최종 목표 위치로 설정 (최종 위치에 정확하게 맞추기 위해)
-                player.transform.position = targetPosition;
-                player.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 1);
-                yield break;
-            }
-
+            
             player.transform.position = Vector3.Lerp(startingPosition, targetPosition, elapsedTime);
-            elapsedTime += Time.deltaTime * moveSpeed;
+            elapsedTime += Time.deltaTime * moveSpeed/2;
             yield return null; // 한 프레임 기다림
         }
+
+        playerRb.AddForceAtPosition(new Vector2(0, 130), targetPosition); // 이동이 없을경우 마지막에 움직이는 모션을 더 자연스럽게 움직이도록 수정
     }
 }
