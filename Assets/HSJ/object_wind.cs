@@ -1,70 +1,85 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
+
 
 public class object_wind : MonoBehaviour
 {
-    [SerializeField] private LayerMask playerMask;
-    [SerializeField] private int objectSize;
-    BasicControler player;
-    Rigidbody2D playerRig;
+    private BasicControler player;
+    private Rigidbody2D playerRb;
+    private float moveSpeed;
+    private Vector3 targetedPos;
+    private Vector3 playerPos;
+    private float scale;
 
-    private float   theta;
-    private float   basicTheta;
-    private float   lowJumpPower;
-    private float   originJumpPower;
-    private Vector2 targetPos;
-    private Vector3 objectForce;
-    private bool checker;
+    public bool canMoved = false;
 
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         player = FindObjectOfType<BasicControler>();
-        playerRig = FindObjectOfType<Rigidbody2D>();
-        
-        lowJumpPower = player.jumpPower * 0.6f;
-        originJumpPower = player.jumpPower;
-        basicTheta = (1f*Mathf.PI) * Mathf.Rad2Deg;
-        theta = (basicTheta - transform.rotation.eulerAngles.z)*Mathf.Deg2Rad;
-
-        objectForce = new Vector3(Mathf.Cos(theta), Mathf.Sin(theta),0);
-        targetPos = new Vector2(transform.position.x, transform.position.y + transform.localScale.y / 2);
-       
-        Debug.Log(basicTheta);
-        Debug.Log(theta);
-        Debug.Log(Mathf.Sin(theta));
+        playerRb = player.GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
-    void Update()
+    void Start()
     {
-        checker = playerCheck();
-        if (checker) 
+        canMoved = false;
+        moveSpeed = player.moveSpeed;
+        scale = transform.localScale.y / 2f;
+        targetedPos = new Vector3(transform.position.x, transform.position.y + (scale), transform.position.z);
+    }
+    private void Update()
+    {
+        playerPos = transform.position;
+    }
+
+    private void FixedUpdate()
+    {
+        if (canMoved)
         {
-            playerRig.MovePosition(player.transform.position + objectForce * Time.deltaTime*5);
+            MoveToPosition(targetedPos);
         }
     }
 
-    public bool playerCheck()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        Vector2 origin = this.transform.position + new Vector3(0, objectSize / 2, 0);
-        Vector2 direction = Vector2.down;
-        Vector2 size = transform.localScale;
+        if (collision.CompareTag("Player"))
+        {
+            canMoved = true;
+        }
 
-        RaycastHit2D[] hits = Physics2D.BoxCastAll(origin, size, theta, direction, playerMask);
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            canMoved = false;
+        }
+    }
 
-        foreach (RaycastHit2D hit in hits)
-            if (hit.collider.CompareTag("Player"))
+    public void MoveToPosition(Vector3 targetPosition)
+    {
+        StartCoroutine(MoveToPositionCoroutine(targetPosition));
+    }
+
+    IEnumerator MoveToPositionCoroutine(Vector3 targetPosition)
+    {
+        float elapsedTime = 0f;
+        Vector3 startingPosition = player.transform.position;
+
+        while (elapsedTime < 1f)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                player.jumpPower = lowJumpPower;
-                return true;
+                yield break; // 코루틴 종료
             }
 
-        player.jumpPower = originJumpPower;
-        return false;
+            player.transform.position = Vector3.Lerp(startingPosition, targetPosition, elapsedTime);
+            elapsedTime += Time.deltaTime * moveSpeed / 2;
+            yield return null; // 한 프레임 기다림
+        }
+
+        playerRb.AddForceAtPosition(new Vector2(0, 130), targetPosition);
     }
 }
