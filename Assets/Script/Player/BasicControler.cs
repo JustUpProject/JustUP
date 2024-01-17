@@ -38,6 +38,28 @@ public class BasicControler : MonoBehaviour
 
     Vector3 wallPos; //�浹�� ���� ��ġ ����
 
+    private static BasicControler instance;
+
+    private void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public static BasicControler Instance
+    {
+        get
+        {
+            return instance;
+        }
+    }
 
     void Start()
     {

@@ -9,6 +9,7 @@ public class Basic_Item : MonoBehaviour
     protected GameData gameData;
     protected int itemCode;
 
+
     // Start is called before the first frame update
     protected virtual void Start()
     {
@@ -53,6 +54,11 @@ public class Basic_Item : MonoBehaviour
                 }
             }
         }
+    }
+
+    public virtual void UseSkill()
+    {
+
     }
 
 }
