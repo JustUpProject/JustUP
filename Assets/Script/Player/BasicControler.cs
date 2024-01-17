@@ -121,7 +121,7 @@ public class BasicControler : MonoBehaviour
     }
 
 
-    private bool FloorCheck()
+    public bool FloorCheck()
     {
 
         Vector2 origin = this.transform.position + new Vector3(0, -0.35f, 0);

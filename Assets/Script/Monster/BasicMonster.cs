@@ -8,6 +8,7 @@ public class BasicMonster : MonoBehaviour
 {
     BasicControler player;
     itemShield itemshield;
+    itemHunt itemhide;
 
     [System.Serializable]
     public enum MonsterType
@@ -18,6 +19,9 @@ public class BasicMonster : MonoBehaviour
     }
 
     public MonsterType type;
+
+    private float monsterSturnTime = 0f;
+
     private bool direction = false; // true = ¿À¸¥ÂÊ x++, false = ¿ÞÂÊ x--
     [SerializeField]
     public float speedMonster;
@@ -29,14 +33,22 @@ public class BasicMonster : MonoBehaviour
     {
         player = FindObjectOfType<BasicControler>();
         itemshield = FindObjectOfType<itemShield>();
+        if(itemshield == null )
+            itemshield = GetComponent<itemShield>();
+        itemhide = FindObjectOfType<itemHunt>();
+        if( itemhide == null ) 
+            itemhide = GetComponent<itemHunt>();
     }
 
     // Update is called once per frame
     protected virtual void Update()
     {
-        TurnMonster();
-        MoveMonster();
-
+        if(monsterSturnTime <= 0f) // + item Smite
+        {
+            TurnMonster();
+            MoveMonster();
+        }
+        monsterSturnTime -= Time.deltaTime;
     }
 
     public void OnCollisionEnter2D(Collision2D collision)
@@ -45,12 +57,21 @@ public class BasicMonster : MonoBehaviour
         {
             if (type == MonsterType.AttackAble)
             {
-                if (player.transform.position.y > transform.position.y)
+                if (itemhide.usedHunt)
                 {
-                    player.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 3, 0);
                     Destroy(this.gameObject);
                     return;
                 }
+                else
+                {
+                    if (player.transform.position.y > transform.position.y)
+                    {
+                        player.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 3, 0);
+                        Destroy(this.gameObject);
+                        return;
+                    }
+                }
+                
             }
 
             else if (type == MonsterType.ItemAttackAble)
@@ -63,7 +84,7 @@ public class BasicMonster : MonoBehaviour
 
             }
 
-            if(itemshield.onShield ==false)
+            if(itemshield.onShield == false)
             {
                 player.PlayerHit();
             }
@@ -119,4 +140,8 @@ public class BasicMonster : MonoBehaviour
         // This method can be overridden by derived classes
     }
 
+    public void setSturnTime(float time) // + item Smite
+    {
+        monsterSturnTime = time;
+    }
 }

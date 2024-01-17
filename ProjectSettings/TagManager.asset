@@ -11,6 +11,7 @@ TagManager:
   - portal_A
   - portal_B
   - Monster
+  - shieldEffect
   layers:
   - Default
   - TransparentFX
