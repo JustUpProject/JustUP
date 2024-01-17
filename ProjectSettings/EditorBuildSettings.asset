@@ -14,4 +14,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/JinHo_Scenes.unity
     guid: b556dcda7f0cd8347857db6bda90e2e4
+  - enabled: 1
+    path: Assets/Scenes/Title_Scenes_test.unity
+    guid: 0820337f0bd59664f90c307126190670
+  - enabled: 1
+    path: Assets/Scenes/Hwan_Scenes.unity
+    guid: fbbbf623868b11f4c9582d5aa3c5613e
+  - enabled: 1
+    path: Assets/Scenes/Select_Scenes_test.unity
+    guid: cf3842f29b38e4b44bfa0bf102883a7d
   m_configObjects: {}
