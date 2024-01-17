@@ -38,6 +38,28 @@ public class BasicControler : MonoBehaviour
 
     Vector3 wallPos; //�浹�� ���� ��ġ ����
 
+    private static BasicControler instance;
+
+    private void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public static BasicControler Instance
+    {
+        get
+        {
+            return instance;
+        }
+    }
 
     void Start()
     {
@@ -121,7 +143,7 @@ public class BasicControler : MonoBehaviour
     }
 
 
-    private bool FloorCheck()
+    public bool FloorCheck()
     {
 
         Vector2 origin = this.transform.position + new Vector3(0, -0.35f, 0);

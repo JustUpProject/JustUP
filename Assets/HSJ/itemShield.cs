@@ -6,16 +6,16 @@ using UnityEngine;
 public class itemShield : Basic_Item
 {
     private SpriteRenderer spriteRenderer;
-
+    private GameObject shieldEffect;
     private float timer = 0f;
     private int numOfUses;
-    public GameObject shieldEffect;
 
     public bool isShield = false;
     public bool onShield = false;
 
     private void Awake()
     {
+        shieldEffect = GameObject.FindWithTag("shieldEffect");
         spriteRenderer = shieldEffect.GetComponent<SpriteRenderer>();
     }
 
@@ -28,7 +28,7 @@ public class itemShield : Basic_Item
     private void Update()
     {
 
-        if(Input.GetKeyDown(KeyCode.O))
+        if(Input.GetKeyDown(KeyCode.O)) //basic코드 바뀌면 변경예정부분
         {
             if(isShield && numOfUses>0)
             {

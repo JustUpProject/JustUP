@@ -12,25 +12,34 @@ public class ItemUI : MonoBehaviour
     [SerializeField] private Image slot01;
     [SerializeField] private Image slot02;
 
-    private Image item00;
-    private Image item01;
-    private Image item02;
-    private Image item03;
-    private Image item04;
-    private Image item05;
-    private Image item06;
-    private Image item07;
-    private Image item08;
-    private Image item09;
-    private Image item10;
+    private Sprite item00;
+    private Sprite item01;
+    private Sprite item02;
+    private Sprite item03;
+    private Sprite item04;
+    private Sprite item05;
+    private Sprite item06;
+    private Sprite item07;
+    private Sprite item08;
+    private Sprite item09;
+    private Sprite item10;
 
     private void Awake()
     {
-        item00 = Resources.Load<Image>("Image/skill_icon_shield");
-        item01 = Resources.Load<Image>("Image/skill_icon_hook");
-        item02 = Resources.Load<Image>("Image/skill_icon_generating");
-        item04 = Resources.Load<Image>("Image/skill_icon_smite");
-        item07 = Resources.Load<Image>("Image/skill_icon_hide");
+
+        item00 = Resources.Load<Sprite>("Image/skill_icon_shield");
+        item01 = Resources.Load<Sprite>("Image/Skill_icon_hook");
+        item02 = Resources.Load<Sprite>("Image/skill_icon_generating");
+        item03 = Resources.Load<Sprite>("Image/skill_icon_Sjump");
+        item04 = Resources.Load<Sprite>("Image/skill_icon_smite");
+        item06 = Resources.Load<Sprite>("Image/skill_icon_clock");
+        item07 = Resources.Load<Sprite>("Image/skill_icon_hide");
+
+        if (item00 == null || item01 == null || item02 == null || item04 == null || item07 == null)
+        {
+            Debug.Log("이미지 찾지 못함");
+        }
+        
     }
     // Start is called before the first frame update
     void Start()
@@ -42,14 +51,17 @@ public class ItemUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(Input.GetKeyDown(KeyCode.U))
+        {
+            ItemUpdate();
+        }
     }
 
     public void ItemUpdate()            //아이템 UI Update
     {
         for (int i = 0; i < 3;  i++)
         {
-            currentItem = Item_Controller.Instance.gameData.Inventory[i]; //// ㅈ버그 발생 레퍼런스 못 찾음
+            currentItem = Item_Controller.Instance.gameData.Inventory[i]; 
             if(i == 0) ImageUpdate(currentItem, slot00);
             else if(i == 1) ImageUpdate(currentItem, slot01);
             else if(i == 2) ImageUpdate(currentItem, slot02);
@@ -70,29 +82,34 @@ public class ItemUI : MonoBehaviour
         switch (item)
         {
             case 0:
-                icon.sprite = item00.sprite;
+                icon.sprite = item00;
                 break;
             case 1:
-                icon.sprite = item01.sprite;
+                icon.sprite = item01;
                 break;
             case 2:
-                icon.sprite = item02.sprite;
+                icon.sprite = item02;
                 break;
             case 3:
+                icon.sprite = item03;
                 break;
             case 4:
-                icon.sprite = item04.sprite;
+                icon.sprite = item04;
                 break;
             case 5:
+                icon.sprite = item05;
                 break;
             case 6:
+                icon.sprite = item06;
                 break;
             case 7:
-                icon.sprite = item07.sprite;
+                icon.sprite = item07;
                 break;
             case 8:
+                icon.sprite = item08;
                 break;
             case 9:
+                icon.sprite = item09;
                 break;
             case 63:
                 break;

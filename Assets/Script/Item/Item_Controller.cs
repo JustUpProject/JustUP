@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class Item_Controller : MonoBehaviour
@@ -7,11 +9,13 @@ public class Item_Controller : MonoBehaviour
     public GameData gameData;
     private static Item_Controller instance;
     private ItemUI item;
+    private Basic_Item skill;
 
     private void Awake()
     {
         gameData = Resources.Load<GameData>("ScriptableObject/Datas");
         item = FindObjectOfType<ItemUI>();
+        skill = FindObjectOfType<Basic_Item>();
 
         if(instance == null)
         {
@@ -43,9 +47,13 @@ public class Item_Controller : MonoBehaviour
             item.ItemSwap();
             item.ItemUpdate();
         }
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.I)) 
         {
-            //아이템 스크립트에 함수들 작동
+            if (gameData.Inventory[1] == 3)
+            {
+                skill = new Item_Sjump();
+                skill.UseSkill();
+            }
         }
 
     }

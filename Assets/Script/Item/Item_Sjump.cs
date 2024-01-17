@@ -2,22 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item_Sjump : MonoBehaviour
+public class Item_Sjump : Basic_Item
 {
     [SerializeField] private float jumpPower = 10f;
-    BasicControler player;
-    
-    private void Start()
+
+    protected override void Start()
     {
-        player = FindObjectOfType<BasicControler>();
+        itemCode = 3;
+        gameData = Resources.Load<GameData>("ScriptableObject/Datas");
     }
 
-    // Update is called once per frame
-    private void OnTriggerEnter2D(Collider2D other)
+    public override void UseSkill()
     {
-        if (other.CompareTag("Player"))
-        {
-            player.GetComponent<Rigidbody2D>().velocity = new Vector3(0, jumpPower, 0);
-        }
+        BasicControler.Instance.GetComponent<Rigidbody2D>().velocity = new Vector3(0, jumpPower, 0);
     }
 }
