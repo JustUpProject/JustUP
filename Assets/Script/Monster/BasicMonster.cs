@@ -3,22 +3,29 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+[System.Serializable]
+public enum MonsterType
+{
+    AttackAble,
+    ItemAttackAble,
+    NotAttackAble
+}
+
+public enum State
+{
+    Move,
+    Turn,
+    Attack
+}
 
 public class BasicMonster : MonoBehaviour
 {
-    BasicControler player;
-    itemShield itemshield;
-    itemHunt itemhide;
-
-    [System.Serializable]
-    public enum MonsterType
-    {
-        AttackAble,
-        ItemAttackAble,
-        NotAttackAble
-    }
+    private BasicControler player;
+    private itemShield itemshield;
+    private itemHunt itemhide;
 
     public MonsterType type;
+    public State state;
 
     private float monsterSturnTime = 0f;
 
@@ -29,9 +36,10 @@ public class BasicMonster : MonoBehaviour
     private float sizeMonster;  // Move함수에서 사용할 연산에 들어갈 몬스터 크기
 
     // Start is called before the first frame update
-    void Start()
+    protected void Start()
     {
-        player = FindObjectOfType<BasicControler>();
+        player = BasicControler.Instance;
+
         itemshield = FindObjectOfType<itemShield>();
         if(itemshield == null )
             itemshield = GetComponent<itemShield>();
@@ -43,12 +51,20 @@ public class BasicMonster : MonoBehaviour
     // Update is called once per frame
     protected virtual void Update()
     {
-        if(monsterSturnTime <= 0f) // + item Smite
-        {
-            TurnMonster();
-            MoveMonster();
-        }
         monsterSturnTime -= Time.deltaTime;
+
+        if (monsterSturnTime <= 0f) // + item Smite
+        {
+            if(state == State.Move)
+            {
+                MoveMonster();
+            }
+            else if (state == State.Turn) 
+            {
+                Turn();
+            }
+        }
+
     }
 
     public void OnCollisionEnter2D(Collision2D collision)
@@ -57,21 +73,19 @@ public class BasicMonster : MonoBehaviour
         {
             if (type == MonsterType.AttackAble)
             {
-                if (itemhide.usedHunt)
+                //if (itemhide.usedHunt)
+                //{
+                //    Destroy(this.gameObject);
+                //    return;
+                //}
+
+                if (player.transform.position.y - 0.3f> transform.position.y + 0.2f)
                 {
+                    player.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 3, 0);
                     Destroy(this.gameObject);
                     return;
                 }
-                else
-                {
-                    if (player.transform.position.y > transform.position.y)
-                    {
-                        player.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 3, 0);
-                        Destroy(this.gameObject);
-                        return;
-                    }
-                }
-                
+
             }
 
             else if (type == MonsterType.ItemAttackAble)
@@ -97,42 +111,62 @@ public class BasicMonster : MonoBehaviour
 
     protected virtual void MoveMonster()
     {
-        if(direction)
-        {
-            this.transform.position += new Vector3(speedMonster * Time.deltaTime, 0, 0);
-        }
-        if (!direction)
-        {
+        TurnMonster();
+        if (transform.localScale.x > 0)
             this.transform.position -= new Vector3(speedMonster * Time.deltaTime, 0, 0);
-        }
-
+        else if (transform.localScale.x < 0)
+            this.transform.position += new Vector3(speedMonster * Time.deltaTime, 0, 0);
     }
 
     protected void Turn()
     {
-        direction = !direction;
+        Debug.Log("턴");
+        state = State.Move;
+        transform.localScale = new Vector3(-1 * transform.localScale.x, transform.localScale.y, transform.localScale.z);
         OnDirectionChanged();
     }
 
     protected void TurnMonster()
     {
-        Vector2 originR = transform.position + new Vector3(sizeMonster, 0, 0);
-        Vector2 originL = transform.position - new Vector3(sizeMonster, 0, 0);
-        Vector2 direction = Vector2.down;
-
-        RaycastHit2D hitR = Physics2D.Raycast(originR, direction, 1);
-        RaycastHit2D hitL = Physics2D.Raycast(originL, direction, 1);
-
-        if(hitR.collider == null)
-        {
-            Turn();
-            
-        }
-        if(hitL.collider == null)
-        {
-            Turn();
-        }
         
+        if(transform.localScale.x > 0)
+        {
+
+            Vector2 originL = transform.position - new Vector3(sizeMonster, 0, 0);
+            Vector2 directionDown = Vector2.down;
+
+            Vector2 origin = transform.position;
+            Vector2 direction = Vector2.left;
+
+            RaycastHit2D hit = Physics2D.Raycast(originL, directionDown, 1);
+            RaycastHit2D hitFoward = Physics2D.Raycast(origin, direction);
+
+            Debug.Log(hitFoward);
+
+            if (hit.collider == null || hitFoward.collider.gameObject.CompareTag("Wall"))
+            {
+                Debug.Log(hitFoward.collider);
+                Debug.Log("좌");
+                Turn();
+            }
+        }
+        else if(transform.localScale.x < 0)
+        {
+            Vector2 originR = transform.position + new Vector3(sizeMonster, 0, 0);
+            Vector2 directionDown = Vector2.down;
+
+            Vector2 origin = transform.position;
+            Vector2 direction = Vector2.right;
+
+            RaycastHit2D hit = Physics2D.Raycast(originR, directionDown, 1);
+            RaycastHit2D hitFoward = Physics2D.Raycast(origin, direction, 1);
+
+            if (hit.collider == null || hitFoward.collider.CompareTag("Wall"))
+            {
+                Debug.Log("우");
+                Turn();
+            }
+        }
     }
 
     protected virtual void OnDirectionChanged()
