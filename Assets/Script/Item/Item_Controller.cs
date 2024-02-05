@@ -49,9 +49,9 @@ public class Item_Controller : MonoBehaviour
         }
         if(Input.GetKeyDown(KeyCode.I)) 
         {
-            if (gameData.Inventory[1] == 3)
+            if (gameData.Inventory[1] == 0)
             {
-                skill = new Item_Sjump();
+                skill = new itemShield();
                 skill.UseSkill();
             }
         }

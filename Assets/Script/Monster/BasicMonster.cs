@@ -1,14 +1,17 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
+using Unity.VisualScripting;
 using UnityEditor;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-
-
+using stateSheild;
 public class BasicMonster : MonoBehaviour
 {
     BasicControler player;
     itemShield itemshield;
-    itemHunt itemhide;
+    itemHunt itemhunt;
 
     [System.Serializable]
     public enum MonsterType
@@ -32,12 +35,14 @@ public class BasicMonster : MonoBehaviour
     void Start()
     {
         player = FindObjectOfType<BasicControler>();
+
         itemshield = FindObjectOfType<itemShield>();
         if(itemshield == null )
             itemshield = GetComponent<itemShield>();
-        itemhide = FindObjectOfType<itemHunt>();
-        if( itemhide == null ) 
-            itemhide = GetComponent<itemHunt>();
+
+        itemhunt = FindObjectOfType<itemHunt>();
+        if( itemhunt == null ) 
+            itemhunt = GetComponent<itemHunt>();
     }
 
     // Update is called once per frame
@@ -57,20 +62,20 @@ public class BasicMonster : MonoBehaviour
         {
             if (type == MonsterType.AttackAble)
             {
-                if (itemhide.usedHunt)
-                {
-                    Destroy(this.gameObject);
-                    return;
-                }
-                else
-                {
-                    if (player.transform.position.y > transform.position.y)
-                    {
-                        player.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 3, 0);
-                        Destroy(this.gameObject);
-                        return;
-                    }
-                }
+                //if (itemhunt.usedHunt)
+                //{
+                //    Destroy(this.gameObject);
+                //    return;
+                //}
+                //else
+                //{
+                //    if (player.transform.position.y > transform.position.y)
+                //    {
+                //        player.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 3, 0);
+                //        Destroy(this.gameObject);
+                //        return;
+                //    }
+                //}
                 
             }
 
@@ -84,13 +89,13 @@ public class BasicMonster : MonoBehaviour
 
             }
 
-            if(itemshield.onShield == false)
+            if (itemshield.shield == StatShield.broken)
             {
-                player.PlayerHit();
+                itemshield.timer = 1f;
             }
             else
             {
-                itemshield.onShield = false;
+                player.PlayerHit();
             }
         }
     }
@@ -143,5 +148,6 @@ public class BasicMonster : MonoBehaviour
     public void setSturnTime(float time) // + item Smite
     {
         monsterSturnTime = time;
+        Debug.Log("sutrn" +" "+ time);
     }
 }

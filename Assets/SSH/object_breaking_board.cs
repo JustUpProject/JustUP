@@ -20,8 +20,8 @@ public class object_breaking_board : MonoBehaviour
     private void Start()
     {
         player = FindObjectOfType<BasicControler>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        boxCollider2D = GetComponent<BoxCollider2D>();
+        spriteRenderer = FindObjectOfType<SpriteRenderer>();
+        boxCollider2D = FindObjectOfType<BoxCollider2D>();
     }
     // 발판이 생성될 때 호출되는 함수입니다.
     void OnEnable()

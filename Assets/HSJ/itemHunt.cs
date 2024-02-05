@@ -2,39 +2,46 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class itemHunt : MonoBehaviour
+public class itemHunt : Basic_Item
 {
+    private BasicControler player;
+
     private float huntTime = 5.0f;
-  
+    private float originMoveSpeed;
+
+    [SerializeField] private float changedMoveSpeed = 2.5f;
+
     public bool usedHunt = false;
 
     private void Awake()
     {
-
+        player = FindObjectOfType<BasicControler>();
+        originMoveSpeed = player.moveSpeed;
     }
 
     private void Update()
     {
-        useHide();
+        useHunt();
 
         if (usedHunt)
         {
             huntTime -= Time.deltaTime;
         }
+
         if(huntTime < 0)
         {
             usedHunt = false;
+            player.moveSpeed = originMoveSpeed;
         }
     }
 
-    public void useHide()
+    public void useHunt()
     {
         if (Input.GetKeyDown(KeyCode.I))
         {
             usedHunt = true;
             huntTime = 5.0f;
-            Debug.Log(usedHunt);
+            player.moveSpeed = changedMoveSpeed;
         }
-
     }
 }
