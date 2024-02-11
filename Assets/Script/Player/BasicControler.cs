@@ -2,8 +2,6 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using static UnityEngine.UI.Image;
 
 public class BasicControler : MonoBehaviour
 {
