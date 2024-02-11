@@ -49,13 +49,16 @@ public class itemShield : Basic_Item
 
                 if (Input.GetKeyUp(KeyCode.I))
                 {
-                    shieldReady();
+                    timer = 3.0f;
+                    spriteRenderer.enabled = true;
+                    Debug.Log(shield);
+                    shield = StatShield.broken;
                 }
                 break;
 
             case StatShield.broken:
 
-                if( timer <3.0f && timer > 1.0f)
+                if( timer <3.0f && timer >= 1.0f)
                 {
                     timer -= Time.deltaTime;
                 }
@@ -66,7 +69,6 @@ public class itemShield : Basic_Item
                 }
                 else
                     shield = StatShield.unable;
-
                 break;
 
             case StatShield.unable:
@@ -75,16 +77,10 @@ public class itemShield : Basic_Item
                 shield = StatShield.ready;
 
                 break;
+
             default:
                 Debug.LogError("Unexpected value for smite enum: " + shield);
                 break;
         }
-    }
-
-    private void shieldReady()
-    {
-        timer = 3.0f;
-        spriteRenderer.enabled = true;
-        shield = StatShield.broken;
     }
 }
