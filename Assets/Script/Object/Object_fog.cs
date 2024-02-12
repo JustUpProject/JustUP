@@ -4,30 +4,57 @@ using UnityEngine;
 
 public class Object_fog : MonoBehaviour
 {
-    SpriteRenderer spriteRenderer;
-    private float timeInterval = 3f; //3초 간격으로 나타남과 사라짐
-    // Start is called before the first frame update
+    private SpriteRenderer spriteRenderer;
+    private bool IsFade = true;
+    [SerializeField] private float time;
     void Start()
     {
         //오브젝트 처음에 비활성화
         spriteRenderer = GetComponent<SpriteRenderer>();
-        StartCoroutine(FogObjectBlink());
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+        StartCoroutine(FadeIn());
         
     }
-    private IEnumerator FogObjectBlink()
+
+    IEnumerator FadeIn()
     {
         while (true)
         {
-            yield return new WaitForSeconds(timeInterval);
+            yield return new WaitForSeconds(time);
 
-            // 오브젝트의 활성화 상태를 반전시킵니다.
-            spriteRenderer.enabled = !(spriteRenderer.enabled);
-            
+            if (IsFade == true)
+            {
+                Debug.Log("ffffffff");
+                Debug.Log(spriteRenderer.color);
+                spriteRenderer.color -= new Color(0, 0, 0, 0.01f);
+            }
+
+            else
+            {
+                Debug.Log("ddddd");
+                Debug.Log(spriteRenderer.color);
+                spriteRenderer.color += new Color(0, 0, 0, 0.01f);
+            }
+            if (spriteRenderer.color.a <= 0)
+            {
+                IsFade = !IsFade;
+                yield return new WaitForSeconds(3);
+            }
+
+            else if(spriteRenderer.color.a >= 1)
+            {
+                IsFade = !IsFade;
+                StartCoroutine(FadeOut());
+                break;
+            }
         }
+
+        yield return null;
+    }
+
+    IEnumerator FadeOut() 
+    {
+        
+        yield return new WaitForSeconds(3);
+        StartCoroutine(FadeIn());
     }
 }

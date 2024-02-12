@@ -2,14 +2,9 @@ using UnityEngine;
 
 public class CameraControler : MonoBehaviour
 {
-    BasicControler player;
+    [SerializeField] private GameObject player;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        player = FindObjectOfType<BasicControler>();
-    }
-
+    
     // Update is called once per frame
     void Update()
     {
