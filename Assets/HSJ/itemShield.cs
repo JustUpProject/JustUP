@@ -2,64 +2,85 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using stateSheild;
+
+namespace stateSheild
+{
+    public enum StatShield
+    {
+        ready,// 아이템 사용전
+        broken,// 아이템 사용중
+        unable // 아이템 사용끝
+    }
+}
 
 public class itemShield : Basic_Item
 {
+    public StatShield shield;
+
     private SpriteRenderer spriteRenderer;
     private GameObject shieldEffect;
-    private float timer = 0f;
-    private int numOfUses;
 
-    public bool isShield = false;
-    public bool onShield = false;
+    public float timer;
 
     private void Awake()
     {
         shieldEffect = GameObject.FindWithTag("shieldEffect");
         spriteRenderer = shieldEffect.GetComponent<SpriteRenderer>();
+        spriteRenderer.enabled = false;
     }
 
-    private void Start()
+    protected override void Start()
     {
-        spriteRenderer.enabled = false;
-        numOfUses = 3;  
+        itemCode = 0;
+        gameData = Resources.Load<GameData>("ScriptableObject/Datas");
     }
 
     private void Update()
     {
-
-        if(Input.GetKeyDown(KeyCode.O)) //basic코드 바뀌면 변경예정부분
-        {
-            if(isShield && numOfUses>0)
-            {
-                useShield();
-                numOfUses -= 1;
-            }
-        }
-
-        if (onShield)
-        {
-            timer += Time.deltaTime;
-        }
-        else
-        {
-            spriteRenderer.enabled = false;
-        }
-
-        if(timer > 3f && timer < 5f) 
-        {
-            spriteRenderer.enabled  = !spriteRenderer.enabled;
-        }
-        if (timer > 5f)
-        {
-            onShield = false;
-        }
+        UseSkill();
     }
 
-    private void useShield()
+    public override void UseSkill()
     {
-        timer = 0f;
-        onShield = true;
-        spriteRenderer.enabled = true;
+        switch (shield)
+        {
+            case StatShield.ready:  //아이템 사용전 초기화된 변수를 사용시간등에 맞춰 설정
+
+                if (Input.GetKeyUp(KeyCode.I))
+                {
+                    timer = 3.0f;
+                    spriteRenderer.enabled = true;
+                    Debug.Log(shield);
+                    shield = StatShield.broken;
+                }
+                break;
+
+            case StatShield.broken:  //아이템 사용중 : 사용중 변화에 맞게 변수를 설정
+
+                if (timer < 3.0f && timer >= 1.0f)
+                {
+                    timer -= Time.deltaTime;
+                }
+                else if (timer < 1.0f && timer > 0f)
+                {
+                    spriteRenderer.enabled = !(spriteRenderer.enabled);
+                    timer -= Time.deltaTime;
+                }
+                else
+                    shield = StatShield.unable;
+                break;
+
+            case StatShield.unable:  //아이템 사용끝 : 사용전 필요한 변수들을 초기화 및 사이클로 돌아감
+
+                spriteRenderer.enabled = false;
+                shield = StatShield.ready;
+
+                break;
+
+            default:
+                Debug.LogError("Unexpected value for smite enum: " + shield);
+                break;
+        }
     }
 }
