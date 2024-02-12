@@ -97,12 +97,12 @@ public class BasicControler : MonoBehaviour
         if (direction == true)
         {
             transform.position += new Vector3(moveSpeed * Time.deltaTime, 0, 0);
-            
+            //rigidbodyPlayer.MovePosition(rigidbodyPlayer.position + Direction * speed * Time.deltaTime);
         }
         else if (direction == false) //변경사항 &&FloorCheck()
         {
             transform.position -= new Vector3(moveSpeed * Time.deltaTime, 0, 0);
-            
+            //rigidbodyPlayer.MovePosition(rigidbodyPlayer.position + Direction * speed * Time.deltaTime);
         }
     }
 
