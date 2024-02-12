@@ -1,3 +1,4 @@
+using stateSheild;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,44 +7,34 @@ public class itemTurn : Basic_Item
 {
     // Start is called before the first frame update
     BasicControler player;
-    SpriteRenderer spriteRenderer;
-    private bool isTurn = false;
 
-    private void Awake()
+    protected override void Start()
     {
-        player = FindObjectOfType<BasicControler>();
-        spriteRenderer = FindObjectOfType<SpriteRenderer>();
+        itemCode = 9;
+        gameData = Resources.Load<GameData>("ScriptableObject/Datas");
     }
+
     private void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.I))
+        UseSkill();
+    }
+
+    public override void UseSkill()
+    {
+        player = BasicControler.Instance;
+
+        if (Input.GetKeyUp(KeyCode.I))
         {
-            if(isTurn) 
+            player.SetDir();
+
+            if (player.getPrivateDir() == true)
             {
-                useTurn();//추후 베이직아이템 변경시 수정
+                player.transform.rotation = new Quaternion(0, 180, 0, 0);
+            }
+            else
+            {
+                player.transform.rotation = new Quaternion(0, 0, 0, 0);
             }
         }
-    }
-
-    private void useTurn()
-    {
-        player.SetDir();
-        if (player.getPrivateDir() == true)
-        {
-            player.transform.rotation = new Quaternion(0, 180, 0, 0);
-        }
-        else
-        {
-            player.transform.rotation = new Quaternion(0, 0, 0, 0);
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            isTurn = true;
-        }
-        spriteRenderer.enabled = false;
     }
 }
