@@ -21,6 +21,8 @@ public class Object_Save_Point : MonoBehaviour
         {
             Debug.Log(gameData.data[0].key + gameData.data[0].value);
             gameData.SavePoint = this.transform.position;
+            this.transform.Find("object_save_point_1").gameObject.SetActive(false);
+            this.transform.Find("object_save_point_2").gameObject.SetActive(true);
         }
     }
 }

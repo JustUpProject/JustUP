@@ -11,8 +11,6 @@ public class BasicControler : MonoBehaviour
     [SerializeField] private LayerMask wallMask;
     SlidingPartical partical;
 
-    object_wind_sub objectwind;
-
     [SerializeField]
     private bool direction = false; //true = ���������� �̵�, false = �������� �̵�
 
@@ -71,7 +69,6 @@ public class BasicControler : MonoBehaviour
         //    partical = this.AddComponent<SlidingPartical>();
 
         transform.position = gameData.SavePoint;
-        objectwind = FindObjectOfType<object_wind_sub>();
     }
 
     void Update()
@@ -82,7 +79,7 @@ public class BasicControler : MonoBehaviour
         JumpPlayer();
 
 
-        if ((isSlidingOnWall == true && FloorCheck() == false ) || objectwind.canMoved == true)
+        if ((isSlidingOnWall == true && FloorCheck() == false ))
         {
             return;
         }
@@ -97,12 +94,12 @@ public class BasicControler : MonoBehaviour
         if (direction == true)
         {
             transform.position += new Vector3(moveSpeed * Time.deltaTime, 0, 0);
-            
+            //rigidbodyPlayer.MovePosition(rigidbodyPlayer.position + Direction * speed * Time.deltaTime);
         }
         else if (direction == false) //변경사항 &&FloorCheck()
         {
             transform.position -= new Vector3(moveSpeed * Time.deltaTime, 0, 0);
-            
+            //rigidbodyPlayer.MovePosition(rigidbodyPlayer.position + Direction * speed * Time.deltaTime);
         }
     }
 
