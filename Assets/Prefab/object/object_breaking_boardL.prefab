@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 979827460145121847}
   - component: {fileID: 3593941612775996242}
   - component: {fileID: 3459389087889703438}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: object_breaking_boardL
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
