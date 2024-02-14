@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class chapter1_monster7 : MonoBehaviour
 {
+    private Vector3 startPos;
     public float upwardSpeed = 2.0f;
     public float downwardSpeed = 4.0f;
 
@@ -13,6 +14,7 @@ public class chapter1_monster7 : MonoBehaviour
     void Start()
     {
         player = FindObjectOfType<BasicControler>();
+        startPos = transform.position;
     }
 
     private void Update()
@@ -21,11 +23,11 @@ public class chapter1_monster7 : MonoBehaviour
         Vector3 currentPosition = transform.position;
         float newPositionY = currentPosition.y + movement * Time.deltaTime;
 
-        newPositionY = Mathf.Clamp(newPositionY, -2.0f, 2.0f);
+        newPositionY = Mathf.Clamp(newPositionY, startPos.y -2.0f, startPos.y +2.0f);
 
         transform.position = new Vector3(currentPosition.x, newPositionY, currentPosition.z);
 
-        if (newPositionY >= 2.0f || newPositionY <= -2.0f)
+        if (newPositionY >= startPos.y + 2.0f || newPositionY <= startPos.y - 2.0f)
         {
             movingUp = !movingUp;
         }
