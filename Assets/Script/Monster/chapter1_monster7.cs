@@ -23,11 +23,11 @@ public class chapter1_monster7 : MonoBehaviour
         Vector3 currentPosition = transform.position;
         float newPositionY = currentPosition.y + movement * Time.deltaTime;
 
-        newPositionY = Mathf.Clamp(newPositionY, startPos.y -2.0f, startPos.y +2.0f);
+        newPositionY = Mathf.Clamp(newPositionY, startPos.y -3.0f, startPos.y +3.0f);
 
         transform.position = new Vector3(currentPosition.x, newPositionY, currentPosition.z);
 
-        if (newPositionY >= startPos.y + 2.0f || newPositionY <= startPos.y - 2.0f)
+        if (newPositionY >= startPos.y + 3.0f || newPositionY <= startPos.y - 3.0f)
         {
             movingUp = !movingUp;
         }
