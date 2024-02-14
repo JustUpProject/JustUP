@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0423697f13e91324e80fb30342960634, type: 3}
   m_Name: Datas
   m_EditorClassIdentifier: 
+
   savePoint: {x: 0, y: -3.55, z: 0}
+  
   inventory: 070000000400000002000000
   data:
   - key: Player
