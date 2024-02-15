@@ -1,37 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class JumpPad : MonoBehaviour
 {
     [SerializeField] private float jumpPower = 10f; // 점프 힘 조절
     BasicControler player;
+    Rigidbody2D playerRig;
 
     private void Start()
     {
         player = FindObjectOfType<BasicControler>();
+        playerRig = player.GetComponent<Rigidbody2D>();
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (other.CompareTag("Player")) // 캐릭터와의 충돌 감지
+        if (collision.gameObject.CompareTag("Player"))
         {
-            BasicControler.Instance.GetComponent<Rigidbody2D>().velocity = new Vector3(0,jumpPower,0);
+            BasicControler.Instance.GetComponent<Rigidbody2D>().velocity = new Vector2(playerRig.velocity.x, jumpPower);
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.CompareTag("Player"))
         {
-            BasicControler.Instance.SetDir();
-            if(BasicControler.Instance.getPrivateDir() == true)
-            {
-                player.transform.rotation = new Quaternion(0, 180, 0, 0);
-            }
-            else
-            {
-                player.transform.rotation = new Quaternion(0, 0, 0, 0);
-            }
+           
+                BasicControler.Instance.SetDir();
+                if (BasicControler.Instance.getPrivateDir() == true)
+                {
+                    player.transform.rotation = new Quaternion(0, 180, 0, 0);
+                }
+                else
+                {
+                    player.transform.rotation = new Quaternion(0, 0, 0, 0);
+                }
         }
     }
 
