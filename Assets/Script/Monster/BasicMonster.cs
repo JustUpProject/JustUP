@@ -44,7 +44,6 @@ public class BasicMonster : MonoBehaviour
     // Start is called before the first frame update
     protected void Start()
     {
-
         player = BasicControler.Instance;
 
 
