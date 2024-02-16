@@ -2,23 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TimeControl : MonoBehaviour
+public class Item_clock: Basic_Item
 {
     private float originalTime;
     private bool Slowed = false;
 
-    private void Start()
+    protected override void Start()
     {
+        itemCode = 6;
+        gameData = Resources.Load<GameData>("ScriptableObject/Datas");
+
         originalTime = Time.timeScale;
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            if (Slowed == false)
+        UseSkill();
+    }
+
+    public override void UseSkill()
+    {
+        if (Input.GetKeyUp(KeyCode.I)) 
+        { 
+            if(!Slowed)
             {
                 Time.timeScale = 0.2f;
-                Slowed = true;
+                Slowed=false;
                 StartCoroutine(ReturnToOriginalTimeScale());
             }
         }

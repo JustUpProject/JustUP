@@ -26,11 +26,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: ffa351362e8b59d4ab5cc2927b409c01, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.342
+      value: 2.329535
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: ffa351362e8b59d4ab5cc2927b409c01, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.16
+      value: 1.8245085
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: ffa351362e8b59d4ab5cc2927b409c01, type: 3}
       propertyPath: m_LocalPosition.z
@@ -66,7 +66,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: ffa351362e8b59d4ab5cc2927b409c01, type: 3}
       propertyPath: m_ConstrainProportionsScale
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8911997174455611925, guid: ffa351362e8b59d4ab5cc2927b409c01, type: 3}
       propertyPath: m_LocalPosition.x
@@ -129,11 +129,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
+  state: 2
   speedMonster: 0
   sizeMonster: 0
   attackAble: 3
   directionRight: 1
-  AttackPrefab: {fileID: 7004124934471961895, guid: 55714c41abbd42945b1418615b65ad37, type: 3}
+  AttackPrefab: {fileID: 2425327527022916847, guid: 111fb14e011823348b54d78228f56484, type: 3}
 --- !u!61 &8839718452605206301
 BoxCollider2D:
   m_ObjectHideFlags: 0

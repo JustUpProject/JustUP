@@ -38,7 +38,9 @@ public class BasicControler : MonoBehaviour
     public float jumpPower;
     public float slidingSpeed; //�����̵����� �������� �ӵ�
 
-    private PlayerState state;
+    public PlayerState state;
+
+    private BoxCollider2D PlayerCollider;
 
     private int playerHealth;
     public int PlayerHealth
@@ -79,6 +81,7 @@ public class BasicControler : MonoBehaviour
         playerHealth = 3;
         gameData = Resources.Load<GameData>("ScriptableObject/Datas");
         partical = GetComponent<SlidingPartical>();
+        PlayerCollider = GetComponent<BoxCollider2D>();
 
         //if(partical == null)
         //    partical = this.AddComponent<SlidingPartical>();
@@ -95,6 +98,8 @@ public class BasicControler : MonoBehaviour
 
         if (state == PlayerState.Move)
         {
+            PlayerCollider.offset = new Vector2(0.1f, 1.6f);
+            PlayerCollider.size = new Vector2(5.0f, 3.2f);
             state = PlayerState.Move;
             animator.SetBool("Jump", false);
             animator.SetBool("Attach", false);
@@ -102,12 +107,16 @@ public class BasicControler : MonoBehaviour
         }
         else if (state == PlayerState.Jump)
         {
+            PlayerCollider.offset = new Vector2(0.0f, 1.6f);
+            PlayerCollider.size = new Vector2(2.0f, 1.8f);
             animator.SetBool("Attach", false);
             animator.SetBool("Jump", true);
-            state = PlayerState.Move;
+            MovePlayer();
         }
         else if (state == PlayerState.Attach)
         {
+            PlayerCollider.offset = new Vector2(0.1f, 1.6f);
+            PlayerCollider.size = new Vector2(5.0f, 3.2f);
             animator.SetBool("Attach", true);
             animator.SetBool("Jump", false);
             
