@@ -45,7 +45,7 @@ public class chapter1Monster4 : BasicMonster
     { 
         if (moveHorizontal == false)
         {
-            base.Update(); // Call the Update method of the base class
+            base.Update(); // Call the Update method of the base class ¹®Á¦»ý±è
         }
     }
     private void FixedUpdate()
