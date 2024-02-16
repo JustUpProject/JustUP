@@ -98,7 +98,7 @@ public class BasicMonster : MonoBehaviour
 
             else if (type == MonsterType.ItemAttackAble)
             {
-
+                player.PlayerHit();
             }
 
             else if (type == MonsterType.NotAttackAble)
@@ -143,15 +143,15 @@ public class BasicMonster : MonoBehaviour
             Vector2 originL = transform.position - new Vector3(sizeMonster, 0, 0);
             Vector2 directionDown = Vector2.down;
 
-            Vector2 origin = transform.position;
+            Vector2 origin = transform.position + new Vector3(0,0.3f,0);
             Vector2 direction = Vector2.left;
 
             RaycastHit2D hit = Physics2D.Raycast(originL, directionDown, 1);
-            RaycastHit2D hitFoward = Physics2D.Raycast(origin, direction);
+            RaycastHit2D hitFoward = Physics2D.Raycast(origin, direction, 1);
 
-            Debug.Log(hitFoward);
+            Debug.Log(hitFoward.collider);
 
-            if (hit.collider == null || hitFoward.collider.gameObject.CompareTag("Wall"))
+            if (hit.collider == null)
             {
                 Debug.Log(hitFoward.collider);
                 Debug.Log("аб");
@@ -163,13 +163,13 @@ public class BasicMonster : MonoBehaviour
             Vector2 originR = transform.position + new Vector3(sizeMonster, 0, 0);
             Vector2 directionDown = Vector2.down;
 
-            Vector2 origin = transform.position;
+            Vector2 origin = transform.position + new Vector3(0, 0.3f, 0);
             Vector2 direction = Vector2.right;
 
             RaycastHit2D hit = Physics2D.Raycast(originR, directionDown, 1);
             RaycastHit2D hitFoward = Physics2D.Raycast(origin, direction, 1);
 
-            if (hit.collider == null || hitFoward.collider.CompareTag("Wall"))
+            if (hit.collider == null)
             {
                 Debug.Log("©Л");
                 Turn();
