@@ -49,25 +49,28 @@ public class chapter1Monster4 : BasicMonster
         colliderUP.enabled = false;
         colliderDOWN.enabled = false;
         targetPosition = Vector2.zero;
-        timer = 4f;
+
+        timer = 2f;
+        spider = SpiderState.MoveHorizontal;
+        spiderRig.gravityScale = 1f;
     }
 
 
     protected override void Update()
     {
-        timer -= Time.deltaTime;
-
         switch (spider)
         {
             case SpiderState.MoveHorizontal:
                 if (timer < 0f)
-                    base.Update();
-                else
                 {
                     setFloorChecker();
                     spider = SpiderState.Stop;
                     timer = 2f;
+                    break;
                 }
+                else
+                    base.Update();
+                timer -= Time.deltaTime;
                 break;
 
             case SpiderState.Stop:
@@ -76,36 +79,34 @@ public class chapter1Monster4 : BasicMonster
                     colliderMonster.enabled = false;
                     spiderRig.gravityScale = 0f;
                     spider = SpiderState.MoveVirtical;
-                    timer = 3f;
+                    timer = 2f;
+                    break;
                 }
-                else
+                if (timer < 0f)
                 {
-                    if (timer < 0f)
-                    {
-                        colliderMonster.enabled = true;
-                        spider = SpiderState.MoveHorizontal;
-                        timer = 2f;
-                    }
+                    colliderMonster.enabled = true;
+                    colliderDOWN.enabled= false;
+                    colliderUP.enabled= false;
+                    spider = SpiderState.MoveHorizontal;
+                    timer = 2f;
+                    break;
                 }
+                timer -= Time.deltaTime;
                 break;
 
             case SpiderState.MoveVirtical:
-                if (timer < 0f)
-                {
-                    spiderRig.gravityScale = 1f;
-                    colliderMonster.enabled = true;
-                }
-                if (gameObject.transform.position.y == targetPosition.y)
+                if (gameObject.transform.position.y == targetPosition.y || timer <0f)
                 {
                     spiderRig.gravityScale = 1f;
                     colliderMonster.enabled = true;
                 }
                 else
-                    spiderRig.position = Vector2.MoveTowards(spiderRig.position, targetPosition, Time.deltaTime * 2);
+                    spiderRig.position = Vector2.MoveTowards(spiderRig.position, targetPosition, Time.deltaTime /3);
                 if (colliderMonster.enabled == true)
                 {
                     spider = SpiderState.MoveHorizontal;
                     timer = 2f;
+                    break;
                 }
                 break;
         }
@@ -128,7 +129,7 @@ public class chapter1Monster4 : BasicMonster
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Floor"))
+        if (other.CompareTag("Object"))
         {
             targetPosition = new Vector2(spiderRig.position.x, other.transform.position.y + (other.transform.localScale.y / 2) + (this.transform.localScale.y / 2));
             colliderUP.enabled = false;

@@ -32,6 +32,7 @@ public class BasicControler : MonoBehaviour
     private bool doubleJumpAble = true; //�÷��̾��� ���� ���� ���� ���� üũ
     private bool isSlidingOnWall = false; //�÷��̾ ���� ����ִ��� ���� üũ
     private bool velocityInit = true;
+    private bool dided = false;
 
     public float rayLength;
     public float rayLengthFloor;
@@ -93,70 +94,75 @@ public class BasicControler : MonoBehaviour
 
     void Update()
     {
-        JumpPlayer();
+        if(dided == false)
+        {
+            JumpPlayer();
 
-        
-        
-
-        if (state == PlayerState.Move)
-        {
-            PlayerCollider.offset = new Vector2(0.1f, 0.0f);
-            PlayerCollider.size = new Vector2(5.0f, 3.2f);
-            state = PlayerState.Move;
-            animator.SetBool("Jump", false);
-            animator.SetBool("Attach", false);
-            MovePlayer();
-        }
-        else if (state == PlayerState.Jump)
-        {
-            PlayerCollider.offset = new Vector2(0.0f, 1.6f);
-            PlayerCollider.size = new Vector2(2.0f, 1.8f);
-            animator.SetBool("Attach", false);
-            animator.SetBool("Jump", true);
-            MovePlayer();
-        }
-        else if (state == PlayerState.Attach)
-        {
-            PlayerCollider.offset = new Vector2(0.0f, 0.0f);
-            PlayerCollider.size = new Vector2(2.5f, 4.8f);
-            animator.SetBool("Attach", true);
-            animator.SetBool("Jump", false);
-            
-        }
-        else if (state == PlayerState.Death)
-        {
-            animator.SetBool("Death", true);
-            StartCoroutine(DeadCount());
-            transform.position = gameData.SavePoint;
-
-            if (playerHealth == 0)
+            if (state == PlayerState.Move)
             {
-                SceneManager.LoadScene("GameOver");
+                PlayerCollider.offset = new Vector2(0.1f, 0.0f);
+                PlayerCollider.size = new Vector2(5.0f, 3.2f);
+                state = PlayerState.Move;
+                animator.SetBool("Jump", false);
+                animator.SetBool("Attach", false);
+                MovePlayer();
             }
+            else if (state == PlayerState.Jump)
+            {
+                PlayerCollider.offset = new Vector2(0.0f, 1.6f);
+                PlayerCollider.size = new Vector2(2.0f, 1.8f);
+                animator.SetBool("Attach", false);
+                animator.SetBool("Jump", true);
+                MovePlayer();
+            }
+            else if (state == PlayerState.Attach)
+            {
+                PlayerCollider.offset = new Vector2(0.0f, 0.0f);
+                PlayerCollider.size = new Vector2(2.5f, 4.8f);
+                animator.SetBool("Attach", true);
+                animator.SetBool("Jump", false);
+
+            }
+            else if (state == PlayerState.Death)
+            {
+                animator.SetBool("Death", true);
+                StartCoroutine(DeadCount());
+                dided = true;
+
+            }
+
+            isSlidingOnWall = false;
+
+            if (state != PlayerState.Attach)
+                GetComponent<Rigidbody2D>().gravityScale = 1.0f;
+
+            if (ObjectCheck() == 2)
+            {
+                state = PlayerState.Move;
+            }
+
+            //WallCheck();
+            //FloorCheck();
+
+            Debug.Log(state);
+
+            velocityInit = true;
+
         }
 
-        isSlidingOnWall = false;
-
-        if(state != PlayerState.Attach)
-            GetComponent<Rigidbody2D>().gravityScale = 1.0f;
-
-        if(ObjectCheck() == 2)
-        {
-            state = PlayerState.Move;
-        }
-
-        //WallCheck();
-        //FloorCheck();
-
-        Debug.Log(state);
-        
-        velocityInit = true;
-        
     }
 
     IEnumerator DeadCount()
     {
         yield return new WaitForSeconds(1.0f);
+        if (playerHealth == 0)
+        {
+            SceneManager.LoadScene("GameOver");
+        }
+        animator.SetBool("Death", false);
+        transform.position = gameData.SavePoint;
+        dided = false;
+        state = PlayerState.Move;
         yield return null;
     }
 
