@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8314792965224156147}
   m_Layer: 8
   m_Name: object_ice_top
-  m_TagString: Floor
+  m_TagString: Object
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

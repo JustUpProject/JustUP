@@ -65,11 +65,11 @@ public class Item_Controller : MonoBehaviour
             //    skill = new Item_generating();
             //    skill.UseSkill();
             //}
-            //else if (gameData.Inventory[1] == 3)
-            //{
-            //    skill = new Item_Sjump();
-            //    skill.UseSkill();
-            //}
+            else if (gameData.Inventory[1] == 3)
+            {
+                skill = new Item_Sjump();
+                skill.UseSkill();
+            }
             else if (gameData.Inventory[1] == 4)
             {
                 skill = new itemSmite();

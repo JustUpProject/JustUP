@@ -1,21 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
+
+public enum SpiderState
+{
+    MoveVirtical,
+    MoveHorizontal,
+    Stop
+}
 
 public class chapter1Monster4 : BasicMonster
 {
+    SpiderState spider;
+
     private BoxCollider2D colliderUP;
     private BoxCollider2D colliderDOWN;
     private BoxCollider2D colliderMonster;
 
-    private Rigidbody2D rb;
+    private Rigidbody2D spiderRig;
 
     private Vector2 targetPosition;
 
+    private float timer;
     private int num = 0; // 1 = Up 0 = down
-    private bool moveHorizontal = false;
 
     private void Awake()
     {
@@ -23,42 +32,83 @@ public class chapter1Monster4 : BasicMonster
 
         colliderUP = gameObject.AddComponent<BoxCollider2D>();
         colliderDOWN = gameObject.AddComponent<BoxCollider2D>();
-        rb = FindObjectOfType<Rigidbody2D>();
+
+        spiderRig = FindObjectOfType<Rigidbody2D>();
     }
 
     private void Start()
     {
-        colliderUP.size = new Vector2(0.2f, 3f);
-        colliderUP.offset = new Vector2(0f, 1.5f);
+        colliderUP.size = new Vector2(0.2f, 4f);
+        colliderUP.offset = new Vector2(0f, 9f);
         colliderUP.isTrigger = true;
 
-        colliderDOWN.size = new Vector2(0.2f, 3f);
-        colliderDOWN.offset = new Vector2(0f, -3.5f);
+        colliderDOWN.size = new Vector2(0.2f, 4f);
+        colliderDOWN.offset = new Vector2(0f, -9f);
         colliderDOWN.isTrigger = true;
 
         colliderUP.enabled = false;
         colliderDOWN.enabled = false;
         targetPosition = Vector2.zero;
+        timer = 4f;
     }
 
+
     protected override void Update()
-    { 
-        if (moveHorizontal == false)
-        {
-            base.Update(); // Call the Update method of the base class 문제생김
-        }
-    }
-    private void FixedUpdate()
     {
-        if(moveHorizontal==true)
+        timer -= Time.deltaTime;
+
+        switch (spider)
         {
-            moveToPosition(targetPosition);
+            case SpiderState.MoveHorizontal:
+                if (timer < 0f)
+                    base.Update();
+                else
+                {
+                    setFloorChecker();
+                    spider = SpiderState.Stop;
+                    timer = 2f;
+                }
+                break;
+
+            case SpiderState.Stop:
+                if (colliderDOWN.enabled == false && colliderUP.enabled == false)
+                {
+                    colliderMonster.enabled = false;
+                    spiderRig.gravityScale = 0f;
+                    spider = SpiderState.MoveVirtical;
+                    timer = 3f;
+                }
+                else
+                {
+                    if (timer < 0f)
+                    {
+                        colliderMonster.enabled = true;
+                        spider = SpiderState.MoveHorizontal;
+                        timer = 2f;
+                    }
+                }
+                break;
+
+            case SpiderState.MoveVirtical:
+                if (timer < 0f)
+                {
+                    spiderRig.gravityScale = 1f;
+                    colliderMonster.enabled = true;
+                }
+                if (gameObject.transform.position.y == targetPosition.y)
+                {
+                    spiderRig.gravityScale = 1f;
+                    colliderMonster.enabled = true;
+                }
+                else
+                    spiderRig.position = Vector2.MoveTowards(spiderRig.position, targetPosition, Time.deltaTime * 2);
+                if (colliderMonster.enabled == true)
+                {
+                    spider = SpiderState.MoveHorizontal;
+                    timer = 2f;
+                }
+                break;
         }
-    }
-    protected override void OnDirectionChanged()
-    {
-        base.OnDirectionChanged(); // Call the base class method
-        setFloorChecker(); // Call MoveAlongFloor when direction changes
     }
 
     private void setFloorChecker()
@@ -66,52 +116,23 @@ public class chapter1Monster4 : BasicMonster
         num = Random.Range(0, 100);
         num = num % 2;
 
-        if(num == 0)
+        if (num == 0)
         {
             colliderDOWN.enabled = true;
-        } 
+        }
         else
         {
             colliderUP.enabled = true;
         }
     }
 
-    private void moveToPosition(Vector2 targetPosition)
-    {
-        StartCoroutine(MoveToPositionCoroutine(targetPosition));
-    }
-
-    IEnumerator MoveToPositionCoroutine(Vector2 targetPosition)
-    {
-        float elapsedTime = 0f;
-        rb.interpolation = RigidbodyInterpolation2D.Interpolate;
-        colliderMonster.enabled = false;  //기존에 올라갈때 버벅이던 움직임을 고치기 위해 추가
-
-        while (elapsedTime < 1f)
-        {
-            if(transform.position.y == targetPosition.y)
-            {
-                yield break;
-            }
-            rb.position = Vector2.MoveTowards(rb.position, targetPosition, Time.deltaTime/3);
-            elapsedTime += Time.deltaTime;
-            yield return null; // 한 프레임 기다림
-        }
-
-        rb.interpolation = RigidbodyInterpolation2D.None;
-        colliderMonster.enabled = true;
-        moveHorizontal = false;
-    }
-
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Floor"))
         {
-            targetPosition = new Vector2(rb.position.x, other.transform.position.y + (other.transform.localScale.y / 2) + (this.transform.localScale.y / 2));
-            moveHorizontal = true;
+            targetPosition = new Vector2(spiderRig.position.x, other.transform.position.y + (other.transform.localScale.y / 2) + (this.transform.localScale.y / 2));
             colliderUP.enabled = false;
             colliderDOWN.enabled = false;
         }
-        
     }
 }
