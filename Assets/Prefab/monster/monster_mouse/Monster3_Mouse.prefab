@@ -109,7 +109,7 @@ MonoBehaviour:
   type: 0
   state: 0
   speedMonster: 1
-  sizeMonster: 0.4
+  sizeMonster: 0.5
 --- !u!61 &8239614403210591768
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -165,7 +165,7 @@ Animator:
   m_GameObject: {fileID: 667251994622519082}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 700c74185d6f95d46b7069574c456a2b, type: 2}
+  m_Controller: {fileID: 9100000, guid: 444ac6d9b2b87ea4c9d8e240677e8028, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

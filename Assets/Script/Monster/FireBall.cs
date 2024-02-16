@@ -45,7 +45,7 @@ public class FireBall : MonoBehaviour
         if (direction)
         {
             transform.position += new Vector3(Time.deltaTime * speed * -1, 0, 0);
-            
+
         }
         else
         {
