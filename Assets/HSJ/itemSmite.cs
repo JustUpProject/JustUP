@@ -65,7 +65,7 @@ public class itemSmite : Basic_Item
 
     private void flight()
     {
-        if (BasicControler.Instance.FloorCheck() == true)
+        if (BasicControler.Instance.ObjectCheck() == 2)
         {
             smite = StatSmite.sturn;
         }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -88,6 +89,7 @@ public class BasicControler : MonoBehaviour
 
         transform.position = gameData.SavePoint;
     }
+    
 
     void Update()
     {
@@ -98,7 +100,7 @@ public class BasicControler : MonoBehaviour
 
         if (state == PlayerState.Move)
         {
-            PlayerCollider.offset = new Vector2(0.1f, 1.6f);
+            PlayerCollider.offset = new Vector2(0.1f, 0.0f);
             PlayerCollider.size = new Vector2(5.0f, 3.2f);
             state = PlayerState.Move;
             animator.SetBool("Jump", false);
@@ -115,16 +117,36 @@ public class BasicControler : MonoBehaviour
         }
         else if (state == PlayerState.Attach)
         {
-            PlayerCollider.offset = new Vector2(0.1f, 1.6f);
-            PlayerCollider.size = new Vector2(5.0f, 3.2f);
+            PlayerCollider.offset = new Vector2(0.0f, 0.0f);
+            PlayerCollider.size = new Vector2(2.5f, 4.8f);
             animator.SetBool("Attach", true);
             animator.SetBool("Jump", false);
             
         }
+        else if (state == PlayerState.Death)
+        {
+            animator.SetBool("Death", true);
+            StartCoroutine(DeadCount());
+            transform.position = gameData.SavePoint;
+
+            if (playerHealth == 0)
+            {
+                SceneManager.LoadScene("GameOver");
+            }
+        }
+
         isSlidingOnWall = false;
-        
-        WallCheck();
-        FloorCheck();
+
+        if(state != PlayerState.Attach)
+            GetComponent<Rigidbody2D>().gravityScale = 1.0f;
+
+        if(ObjectCheck() == 2)
+        {
+            state = PlayerState.Move;
+        }
+
+        //WallCheck();
+        //FloorCheck();
 
         Debug.Log(state);
         
@@ -132,7 +154,11 @@ public class BasicControler : MonoBehaviour
         
     }
 
-    
+    IEnumerator DeadCount()
+    {
+        yield return new WaitForSeconds(1.0f);
+        yield return null;
+    }
 
     private void MovePlayer()
     {
@@ -201,29 +227,29 @@ public class BasicControler : MonoBehaviour
     }
 
 
-    public bool FloorCheck()
-    {
-        Vector2 origin = this.transform.position;
-        Vector2 direction = Vector2.down;
+    //public bool FloorCheck()
+    //{
+    //    Vector2 origin = this.transform.position;
+    //    Vector2 direction = Vector2.down;
 
-        RaycastHit2D[] hits = Physics2D.BoxCastAll(origin, new Vector3(0.3f, 0.01f, 0), 0.0f, direction, rayLengthFloor);
+    //    RaycastHit2D[] hits = Physics2D.BoxCastAll(origin, new Vector3(0.3f, 0.01f, 0), 0.0f, direction, rayLengthFloor);
         
 
-        foreach (RaycastHit2D hit in hits)
-        {
+    //    foreach (RaycastHit2D hit in hits)
+    //    {
             
-            if (hit.collider.CompareTag("Floor"))
-            {
-                Debug.Log("바닥");
-                InitJump();
-                this.direction = true;
-                state = PlayerState.Move;
-                return true;
-            }
-        }
+    //        if (hit.collider.CompareTag("Floor"))
+    //        {
+    //            Debug.Log("바닥");
+    //            InitJump();
+    //            this.direction = true;
+    //            state = PlayerState.Move;
+    //            return true;
+    //        }
+    //    }
 
-        return false;
-    }
+    //    return false;
+    //}
 
     private void OnDrawGizmos()
     {
@@ -239,37 +265,103 @@ public class BasicControler : MonoBehaviour
         }
     }
 
-    public int WallCheck()
+    //public int WallCheck()
+    //{
+    //    Vector2 origin = this.transform.position;
+
+    //    Vector2 direction = Vector2.right;
+    //    RaycastHit2D hits = Physics2D.Raycast(origin, direction, rayLength, wallMask);
+
+    //    if(hits.collider != null)
+    //    {
+    //        if (hits.collider.CompareTag("Wall"))
+    //        {
+    //            InitJump();
+
+    //            wallPos = hits.collider.transform.position;
+    //            Turn(wallPos);
+    //            WallSliding();
+
+    //            state = PlayerState.Attach;
+
+    //            return 1;
+
+    //        }
+
+    //    }
+    //    direction = Vector2.left;
+
+    //    hits = Physics2D.Raycast(origin, direction, rayLength, wallMask);
+
+    //    if(hits.collider != null)
+    //    {
+    //        if (hits.collider.CompareTag("Wall"))
+    //        {
+    //            InitJump();
+
+    //            Turn(wallPos);
+    //            WallSliding();
+
+    //            state = PlayerState.Attach;
+    //        }
+    //    }
+
+    //    return 0;
+    //}
+
+    public int ObjectCheck()
     {
+        int result = 0;
+
+        Vector2 originF = this.transform.position;
+        Vector2 directionF = Vector2.down;
+
+        RaycastHit2D[] hits = Physics2D.BoxCastAll(originF, new Vector3(0.3f, 0.01f, 0), 0.0f, directionF, rayLengthFloor);
+
+
+        foreach (RaycastHit2D hit in hits)
+        {
+
+            if (hit.collider.CompareTag("Object"))
+            {
+                Debug.Log("바닥");
+                InitJump();
+                this.direction = true;
+                state = PlayerState.Move;
+                result = 2;
+            }
+        }
+
+
         Vector2 origin = this.transform.position;
 
         Vector2 direction = Vector2.right;
-        RaycastHit2D hits = Physics2D.Raycast(origin, direction, rayLength, wallMask);
+        RaycastHit2D hitss = Physics2D.Raycast(origin, direction, rayLength, wallMask);
 
-        if(hits.collider != null)
+        if (hitss.collider != null)
         {
-            if (hits.collider.CompareTag("Wall"))
+            if (hitss.collider.CompareTag("Object"))
             {
                 InitJump();
 
-                wallPos = hits.collider.transform.position;
+                wallPos = hitss.collider.transform.position;
                 Turn(wallPos);
                 WallSliding();
 
                 state = PlayerState.Attach;
 
-                return 1;
+                result = 1;
 
             }
 
         }
         direction = Vector2.left;
 
-        hits = Physics2D.Raycast(origin, direction, rayLength, wallMask);
+        hitss = Physics2D.Raycast(origin, direction, rayLength, wallMask);
 
-        if(hits.collider != null)
+        if (hitss.collider != null)
         {
-            if (hits.collider.CompareTag("Wall"))
+            if (hitss.collider.CompareTag("Object"))
             {
                 InitJump();
 
@@ -277,10 +369,12 @@ public class BasicControler : MonoBehaviour
                 WallSliding();
 
                 state = PlayerState.Attach;
+                result = 1;
+
             }
         }
 
-        return 0;
+        return result;
     }
 
     private void Turn(Vector3 wallPos)
@@ -304,7 +398,7 @@ public class BasicControler : MonoBehaviour
     public void PlayerHit()
     {
         playerHealth -= 1;
-        PlayerDie();
+        state = PlayerState.Death;
     }
 
     private void PlayerDie()

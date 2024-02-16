@@ -8,6 +8,7 @@ public class Item_Sjump : Basic_Item
 
     protected override void Start()
     {
+        Debug.Log("ŬŬŬ");
         itemCode = 3;
         gameData = Resources.Load<GameData>("ScriptableObject/Datas");
     }

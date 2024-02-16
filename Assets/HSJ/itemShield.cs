@@ -18,42 +18,36 @@ public class itemShield : Basic_Item
 {
     public StatShield shield;
 
-    private SpriteRenderer spriteRenderer;
-    private GameObject shieldEffect;
+    private SpriteRenderer effectPrefab;
 
     public float timer;
 
-    private void Awake()
-    {
-        shieldEffect = GameObject.FindWithTag("shieldEffect");
-        spriteRenderer = shieldEffect.GetComponent<SpriteRenderer>();
-        spriteRenderer.enabled = false;
-    }
 
-    protected override void Start()
+
+    void init()
     {
+        Debug.Log("클클클");
         itemCode = 0;
         gameData = Resources.Load<GameData>("ScriptableObject/Datas");
+        shield = stateSheild.StatShield.ready;
+        effectPrefab = BasicControler.Instance.transform.Find("Circle").gameObject.GetComponent<SpriteRenderer>();
     }
-
-    private void Update()
-    {
-        UseSkill();
-    }
-
+    
     public override void UseSkill()
     {
+
         switch (shield)
         {
+            
             case StatShield.ready:  //아이템 사용전 초기화된 변수를 사용시간등에 맞춰 설정
 
-                if (Input.GetKeyUp(KeyCode.I))
-                {
-                    timer = 3.0f;
-                    spriteRenderer.enabled = true;
-                    Debug.Log(shield);
-                    shield = StatShield.broken;
-                }
+                init();
+                
+                timer = 3.0f;
+                effectPrefab.enabled = true;
+                Debug.Log(shield);
+                shield = StatShield.broken;
+                
                 break;
 
             case StatShield.broken:  //아이템 사용중 : 사용중 변화에 맞게 변수를 설정
@@ -64,7 +58,7 @@ public class itemShield : Basic_Item
                 }
                 else if (timer < 1.0f && timer > 0f)
                 {
-                    spriteRenderer.enabled = !(spriteRenderer.enabled);
+                    effectPrefab.enabled = !(effectPrefab.enabled);
                     timer -= Time.deltaTime;
                 }
                 else
@@ -73,7 +67,7 @@ public class itemShield : Basic_Item
 
             case StatShield.unable:  //아이템 사용끝 : 사용전 필요한 변수들을 초기화 및 사이클로 돌아감
 
-                spriteRenderer.enabled = false;
+                effectPrefab.enabled = false;
                 shield = StatShield.ready;
 
                 break;

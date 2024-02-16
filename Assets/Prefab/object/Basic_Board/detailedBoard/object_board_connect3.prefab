@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 15359802769408196}
   m_Layer: 8
   m_Name: object_board_connect3
-  m_TagString: Floor
+  m_TagString: Object
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -12,6 +12,7 @@ TagManager:
   - portal_B
   - Monster
   - shieldEffect
+  - Object
   layers:
   - Default
   - TransparentFX

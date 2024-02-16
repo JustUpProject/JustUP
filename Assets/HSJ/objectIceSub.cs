@@ -78,7 +78,7 @@ public class objectIceSub : MonoBehaviour
             if(collision.transform.position.x < this.gameObject.transform.position.x || 
                 collision.transform.position.x > this.gameObject.transform.position.x)
             {
-                player.WallCheck();
+                player.ObjectCheck();
                 player.slidingSpeed = changedSlide;
             }
             if(collision.transform.position.y > this.gameObject.transform.position.y) 
