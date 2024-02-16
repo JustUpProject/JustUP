@@ -82,13 +82,11 @@ public class BasicMonster : MonoBehaviour
         {
             if (type == MonsterType.AttackAble)
             {
-
                 //if (itemhide.usedHunt)
                 //{
                 //    Destroy(this.gameObject);
                 //    return;
                 //}
-
 
                 if (player.transform.position.y - 0.3f > transform.position.y + 0.2f)
                 {
