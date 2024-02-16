@@ -20,10 +20,7 @@ public class itemHunt : Basic_Item
         gameData = Resources.Load<GameData>("ScriptableObject/Datas");
     }
 
-    private void Update()
-    {
-        UseSkill();
-    }
+    
 
     public override void UseSkill()
     {

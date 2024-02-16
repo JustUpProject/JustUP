@@ -47,14 +47,60 @@ public class Item_Controller : MonoBehaviour
             item.ItemSwap();
             item.ItemUpdate();
         }
-        if(Input.GetKeyDown(KeyCode.I)) 
+        if (Input.GetKeyDown(KeyCode.I))
         {
-            if (gameData.Inventory[1] == 3)
+
+            if (gameData.Inventory[1] == 0)
             {
-                skill = new Item_Sjump();
+                skill = new itemShield();
                 skill.UseSkill();
             }
-        }
+            //else if (gameData.Inventory[1] == 1)
+            //{
+            //    //skill = new Item_hook();
+            //    //skill.UseSkill();s
+            //}
+            //else if (gameData.Inventory[1] == 2)
+            //{
+            //    skill = new Item_generating();
+            //    skill.UseSkill();
+            //}
+            //else if (gameData.Inventory[1] == 3)
+            //{
+            //    skill = new Item_Sjump();
+            //    skill.UseSkill();
+            //}
+            else if (gameData.Inventory[1] == 4)
+            {
+                skill = new itemSmite();
+                skill.UseSkill();
+            }
+            else if (gameData.Inventory[1] == 5)
+            {
+                //skill = new Item_teleport();
+                //skill.UseSkill();
+            }
+            else if (gameData.Inventory[1] == 6)
+            {
+                skill = new Item_clock();
+                skill.UseSkill();
+            }
+            //else if (gameData.Inventory[1] == 7)
+            //{
+            //    skill = new Item_hide();
+            //    skill.UseSkill();
+            //}
+            else if (gameData.Inventory[1] == 8)
+            {
+                skill = new itemHunt();
+                skill.UseSkill();
+            }
+            //else if (gameData.Inventory[1] == 9)
+            //{
+            //    skill = new itemTurn();
+            //    skill.UseSkill();
+            //}
 
+        }
     }
 }
