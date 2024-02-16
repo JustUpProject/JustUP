@@ -2,18 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item_generating : MonoBehaviour
+public class Item_generating :Basic_Item
 {
-    public GameObject itemPrefab;
+    private GameObject itemPrefab;
     private BasicControler player;
-    private void Awake()
+
+    protected override void Start()
     {
-        player = FindObjectOfType<BasicControler>();
+        itemCode = 2;
+        gameData = Resources.Load<GameData>("ScriptableObject/Datas");
+
+        itemPrefab = Resources.Load<GameObject>("Prefab/object_one_board_M");
     }
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.R))
+        UseSkill();
+    }
+
+    public override void UseSkill()
+    {
+        if(Input.GetKeyUp(KeyCode.I))
         {
             GenerateItem();
         }
