@@ -5,6 +5,16 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static UnityEngine.UI.Image;
 
+public enum PlayerState
+{
+    Move,
+    Jump,
+    Attach,
+    Skill,
+    Item,
+    Death
+}
+
 public class BasicControler : MonoBehaviour
 {
     [SerializeField] private LayerMask floorMask;
@@ -14,8 +24,9 @@ public class BasicControler : MonoBehaviour
     [SerializeField]
     private bool direction = false; //true = ���������� �̵�, false = �������� �̵�
 
-    GameData gameData;
+    private GameData gameData;
 
+    private Animator animator;
     private bool firstJumpAble = true; //�÷��̾��� ���� ���� ���� üũ
     private bool doubleJumpAble = true; //�÷��̾��� ���� ���� ���� ���� üũ
     private bool isSlidingOnWall = false; //�÷��̾ ���� ����ִ��� ���� üũ
@@ -26,7 +37,9 @@ public class BasicControler : MonoBehaviour
     public float moveSpeed;
     public float jumpPower;
     public float slidingSpeed; //�����̵����� �������� �ӵ�
-    
+
+    private PlayerState state;
+
     private int playerHealth;
     public int PlayerHealth
     {
@@ -34,7 +47,7 @@ public class BasicControler : MonoBehaviour
         set { playerHealth = value; }
     }
 
-    Vector3 wallPos; //�浹�� ���� ��ġ ����
+    private Vector3 wallPos; //�浹�� ���� ��ġ ����
 
     private static BasicControler instance;
 
@@ -61,6 +74,8 @@ public class BasicControler : MonoBehaviour
 
     void Start()
     {
+        animator = GetComponent<Animator>();
+        state = PlayerState.Move;
         playerHealth = 3;
         gameData = Resources.Load<GameData>("ScriptableObject/Datas");
         partical = GetComponent<SlidingPartical>();
@@ -73,32 +88,64 @@ public class BasicControler : MonoBehaviour
 
     void Update()
     {
-        isSlidingOnWall = false;
-        WallCheck();  
-        FloorCheck();
         JumpPlayer();
 
+        
+        
 
-        if ((isSlidingOnWall == true && FloorCheck() == false ))
+        if (state == PlayerState.Move)
         {
-            return;
+            state = PlayerState.Move;
+            animator.SetBool("Jump", false);
+            animator.SetBool("Attach", false);
+            MovePlayer();
         }
+        else if (state == PlayerState.Jump)
+        {
+            animator.SetBool("Attach", false);
+            animator.SetBool("Jump", true);
+            state = PlayerState.Move;
+        }
+        else if (state == PlayerState.Attach)
+        {
+            animator.SetBool("Attach", true);
+            animator.SetBool("Jump", false);
+            
+        }
+        isSlidingOnWall = false;
+        
+        WallCheck();
+        FloorCheck();
+
+        Debug.Log(state);
+        
         velocityInit = true;
-        MovePlayer();
+        
     }
 
     
 
     private void MovePlayer()
     {
-        if (direction == true)
-        {
-            transform.position += new Vector3(moveSpeed * Time.deltaTime, 0, 0);
-            //rigidbodyPlayer.MovePosition(rigidbodyPlayer.position + Direction * speed * Time.deltaTime);
-        }
-        else if (direction == false) //변경사항 &&FloorCheck()
+        
+        //if (direction == true)
+        //{
+        //    transform.position += new Vector3(moveSpeed * Time.deltaTime, 0, 0);
+        //    //rigidbodyPlayer.MovePosition(rigidbodyPlayer.position + Direction * speed * Time.deltaTime);
+        //}
+        //else if (direction == false) //변경사항 &&FloorCheck()
+        //{
+        //    transform.position -= new Vector3(moveSpeed * Time.deltaTime, 0, 0);
+        //    //rigidbodyPlayer.MovePosition(rigidbodyPlayer.position + Direction * speed * Time.deltaTime);
+        //}
+        if (transform.localScale.x > 0)
         {
             transform.position -= new Vector3(moveSpeed * Time.deltaTime, 0, 0);
+            //rigidbodyPlayer.MovePosition(rigidbodyPlayer.position + Direction * speed * Time.deltaTime);
+        }
+        else if (transform.localScale.x < 0) //변경사항 &&FloorCheck()
+        {
+            transform.position += new Vector3(moveSpeed * Time.deltaTime, 0, 0);
             //rigidbodyPlayer.MovePosition(rigidbodyPlayer.position + Direction * speed * Time.deltaTime);
         }
     }
@@ -107,6 +154,9 @@ public class BasicControler : MonoBehaviour
     {
         if ((Input.GetKeyDown(KeyCode.Space)) && doubleJumpAble == true)
         {
+            state = PlayerState.Jump;
+            this.direction = true;
+
             GetComponent<Rigidbody2D>().gravityScale = 1;
             isSlidingOnWall = false;
             GetComponent<Rigidbody2D>().velocity = new Vector3(0, jumpPower, 0);
@@ -116,6 +166,7 @@ public class BasicControler : MonoBehaviour
                 doubleJumpAble = false;
             }
             firstJumpAble = false;
+
 
         }
     }
@@ -130,6 +181,7 @@ public class BasicControler : MonoBehaviour
         GetComponent<Rigidbody2D>().gravityScale = slidingSpeed;
         if (partical.isParticleCycle == true)
             partical.SpwanParticle();
+        
 
     }
 
@@ -142,8 +194,7 @@ public class BasicControler : MonoBehaviour
 
     public bool FloorCheck()
     {
-
-        Vector2 origin = this.transform.position + new Vector3(0, -0.35f, 0);
+        Vector2 origin = this.transform.position;
         Vector2 direction = Vector2.down;
 
         RaycastHit2D[] hits = Physics2D.BoxCastAll(origin, new Vector3(0.3f, 0.01f, 0), 0.0f, direction, rayLengthFloor);
@@ -154,7 +205,10 @@ public class BasicControler : MonoBehaviour
             
             if (hit.collider.CompareTag("Floor"))
             {
+                Debug.Log("바닥");
                 InitJump();
+                this.direction = true;
+                state = PlayerState.Move;
                 return true;
             }
         }
@@ -164,15 +218,15 @@ public class BasicControler : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Vector2 origin = this.transform.position + new Vector3(0, -0.37f, 0);
-        Vector2 direction = Vector2.down;
+        Vector2 origin = this.transform.position;
+        Vector2 direction = Vector2.left;
 
         Gizmos.color = Color.yellow;
-        RaycastHit2D[] hits = Physics2D.BoxCastAll(origin, new Vector3(0.5f, 0.01f, 0), 0.0f, direction, rayLengthFloor);
+        RaycastHit2D hits = Physics2D.Raycast(origin, direction, rayLength);
 
-        foreach(RaycastHit2D hit in hits)
+        if(hits.collider != null)
         {
-            Gizmos.DrawCube(hit.point, new Vector3(0.5f, 0.01f, 0));
+            Gizmos.DrawCube(hits.point, new Vector3(0.5f, 0.01f, 0));
         }
     }
 
@@ -188,10 +242,12 @@ public class BasicControler : MonoBehaviour
             if (hits.collider.CompareTag("Wall"))
             {
                 InitJump();
-                
+
                 wallPos = hits.collider.transform.position;
-                Trun(wallPos);
+                Turn(wallPos);
                 WallSliding();
+
+                state = PlayerState.Attach;
 
                 return 1;
 
@@ -207,27 +263,32 @@ public class BasicControler : MonoBehaviour
             if (hits.collider.CompareTag("Wall"))
             {
                 InitJump();
-                
-                wallPos = hits.collider.transform.position;
-                Trun(wallPos);
+
+                Turn(wallPos);
                 WallSliding();
+
+                state = PlayerState.Attach;
             }
         }
 
         return 0;
     }
 
-    private void Trun(Vector3 wallPos)
+    private void Turn(Vector3 wallPos)
     {
-        if (wallPos.x < transform.position.x)
+        Debug.Log("턴");
+        //transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
+        if (wallPos.x < transform.position.x && direction == true)
         {
-            this.direction = true;
-            transform.rotation = new Quaternion(0, 180, 0, 0);
+            direction = false;
+            transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
+            //transform.rotation = new Quaternion(0, 180, 0, 0);
         }
-        else if (wallPos.x > transform.position.x)
+        else if (wallPos.x > transform.position.x && direction == true)
         {
-            this.direction = false;
-            transform.rotation = new Quaternion(0, 0, 0, 0);
+            direction = false;
+            transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
+            //transform.rotation = new Quaternion(0, 0, 0, 0);
         }
     }
 
