@@ -26,8 +26,10 @@ public class BasicControler : MonoBehaviour
     private bool direction = false; //true = ���������� �̵�, false = �������� �̵�
 
     private GameData gameData;
-
+    private UseingItem useItem;
     private Animator animator;
+
+
     private bool firstJumpAble = true; //�÷��̾��� ���� ���� ���� üũ
     private bool doubleJumpAble = true; //�÷��̾��� ���� ���� ���� ���� üũ
     private bool isSlidingOnWall = false; //�÷��̾ ���� ����ִ��� ���� üũ
@@ -86,7 +88,7 @@ public class BasicControler : MonoBehaviour
         gameData = Resources.Load<GameData>("ScriptableObject/Datas");
         partical = GetComponent<SlidingPartical>();
         PlayerCollider = GetComponent<BoxCollider2D>();
-
+        useItem = GetComponent<UseingItem>();
         //if(partical == null)
         //    partical = this.AddComponent<SlidingPartical>();
 
@@ -456,7 +458,6 @@ public class BasicControler : MonoBehaviour
             }
             
         }
-        Debug.Log(result);
         return result;
     }
 
@@ -466,14 +467,12 @@ public class BasicControler : MonoBehaviour
         //transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
         if (wallPos.x < transform.position.x )//&& direction == true)
         {
-            Debug.Log("턴");
             direction = false;
             transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
             //transform.rotation = new Quaternion(0, 180, 0, 0);
         }
         else if (wallPos.x > transform.position.x )// && direction == true)
         {
-            Debug.Log("턴");
             direction = false;
             transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
             //transform.rotation = new Quaternion(0, 0, 0, 0);
@@ -482,6 +481,11 @@ public class BasicControler : MonoBehaviour
 
     public void PlayerHit()
     {
+        if (useItem.ItemActivate == true)
+        {
+            useItem.UseItem = false;
+            return;
+        }
         playerHealth -= 1;
         state = PlayerState.Death;
     }
