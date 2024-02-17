@@ -134,7 +134,7 @@ MonoBehaviour:
   sizeMonster: 0
   attackAble: 3
   directionRight: 0
-  AttackPrefab: {fileID: 2425327527022916847, guid: 111fb14e011823348b54d78228f56484, type: 3}
+  AttackPrefab: {fileID: 2425327527022916847, guid: 2f303af994dcbd9468fd507087ffa421, type: 3}
 --- !u!61 &9115856275525980178
 BoxCollider2D:
   m_ObjectHideFlags: 0
