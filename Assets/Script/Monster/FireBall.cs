@@ -34,7 +34,7 @@ public class FireBall : MonoBehaviour
             player.PlayerHit();
             Destroy(gameObject);
         }
-        if (collision.collider.CompareTag("Wall"))
+        if (collision.collider.CompareTag("Object"))
         {
             Destroy(gameObject);
         }

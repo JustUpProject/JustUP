@@ -80,6 +80,8 @@ public class BasicMonster : MonoBehaviour
             {
                 if (item.ItemActivate == true)
                     Destroy(gameObject);
+                else if (item.ItemHunted == true)
+                    Destroy(gameObject);
                 if (player.transform.position.y - 0.3f > transform.position.y + 0.3f)
                 {
                     player.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 3, 0);
@@ -91,6 +93,8 @@ public class BasicMonster : MonoBehaviour
             else if (type == MonsterType.ItemAttackAble)
             {
                 if (item.ItemActivate == true)
+                    Destroy(gameObject);
+                else if (item.ItemHunted == true)
                     Destroy(gameObject);
                 player.PlayerHit();
             }
