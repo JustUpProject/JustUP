@@ -41,13 +41,12 @@ public class BasicMonster : MonoBehaviour
     private float sizeMonster;  // Move함수에서 사용할 연산에 들어갈 몬스터 크기
 
     // Start is called before the first frame update
-    protected void Start()
+    protected virtual void Start()
     {
         player = BasicControler.Instance;
-        //item = player.GetComponent<UseingItem>();
-        item = FindObjectOfType<UseingItem>();
-        if (item == null)
-            Debug.Log("x");
+        item = player.GetComponent<UseingItem>();
+        //item = FindObjectOfType<UseingItem>();
+
         itemhunt = FindObjectOfType<itemHunt>();
         if (itemhunt == null)
             itemhunt = GetComponent<itemHunt>();
