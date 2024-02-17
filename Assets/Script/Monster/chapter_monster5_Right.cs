@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class chapter_monster5 : BasicMonster
+public class chapter_monster5_Right : BasicMonster
 {
     [SerializeField] private float attackAble;
     [SerializeField] private bool directionRight;
@@ -39,7 +39,7 @@ public class chapter_monster5 : BasicMonster
         animator.SetBool("Attack", true);
         yield return new WaitForSeconds(1.6f);
 
-        if (DirectionRight)
+        if (directionRight)
         {
             Instantiate(AttackPrefab, transform.position + new Vector3(-0.3f, 0, 0), transform.rotation);
 

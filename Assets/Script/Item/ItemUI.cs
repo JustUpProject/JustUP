@@ -35,6 +35,7 @@ public class ItemUI : MonoBehaviour
         item04 = Resources.Load<Sprite>("Image/skill_icon_smite");
         item06 = Resources.Load<Sprite>("Image/skill_icon_clock");
         item07 = Resources.Load<Sprite>("Image/skill_icon_hide");
+        item09 = Resources.Load<Sprite>("Image/skill_icon_turn");
         item63 = Resources.Load<Sprite>("Image/item_background");
 
         if (item00 == null || item01 == null || item02 == null || item04 == null || item07 == null)
