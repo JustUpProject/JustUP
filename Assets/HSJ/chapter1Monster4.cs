@@ -65,7 +65,7 @@ public class chapter1Monster4 : BasicMonster
                 {
                     setFloorChecker();
                     spider = SpiderState.Stop;
-                    timer = 2f;
+                    timer = 1f;
                     break;
                 }
                 else
@@ -76,7 +76,6 @@ public class chapter1Monster4 : BasicMonster
             case SpiderState.Stop:
                 if (colliderDOWN.enabled == false && colliderUP.enabled == false)
                 {
-                    colliderMonster.enabled = false;
                     spiderRig.gravityScale = 0f;
                     spider = SpiderState.MoveVirtical;
                     timer = 2f;
@@ -101,7 +100,10 @@ public class chapter1Monster4 : BasicMonster
                     colliderMonster.enabled = true;
                 }
                 else
-                    spiderRig.position = Vector2.MoveTowards(spiderRig.position, targetPosition, Time.deltaTime /3);
+                {
+                    colliderMonster.enabled = false;
+                    spiderRig.position = Vector2.MoveTowards(spiderRig.position, targetPosition, Time.deltaTime / 3);
+                }
                 if (colliderMonster.enabled == true)
                 {
                     spider = SpiderState.MoveHorizontal;

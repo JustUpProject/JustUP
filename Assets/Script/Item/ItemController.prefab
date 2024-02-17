@@ -46,6 +46,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameData: {fileID: 0}
+  skill00: {fileID: 0}
+  skill03: {fileID: 0}
+  skill04: {fileID: 0}
+  skill06: {fileID: 0}
+  skill08: {fileID: 0}
+  script: {fileID: 1805904787321168752, guid: 08f0e09c40c098747b099efec6fee11a, type: 3}
 --- !u!114 &6175191616123256131
 MonoBehaviour:
   m_ObjectHideFlags: 0

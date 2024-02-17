@@ -33,6 +33,8 @@ public class BasicControler : MonoBehaviour
     private bool isSlidingOnWall = false; //�÷��̾ ���� ����ִ��� ���� üũ
     private bool velocityInit = true;
     private bool dided = false;
+    private bool AttachCan = true;
+    private bool AttachTp = false;
 
     public float rayLength;
     public float rayLengthFloor;
@@ -100,52 +102,62 @@ public class BasicControler : MonoBehaviour
 
             if (state == PlayerState.Move)
             {
+
                 PlayerCollider.offset = new Vector2(0.1f, 0.0f);
                 PlayerCollider.size = new Vector2(5.0f, 3.2f);
                 state = PlayerState.Move;
+                animator.SetBool("Move", true);
                 animator.SetBool("Jump", false);
                 animator.SetBool("Attach", false);
                 MovePlayer();
             }
             else if (state == PlayerState.Jump)
             {
-                PlayerCollider.offset = new Vector2(0.0f, 1.6f);
+                PlayerCollider.offset = new Vector2(0.0f, -0.2f);
                 PlayerCollider.size = new Vector2(2.0f, 1.8f);
+                animator.SetBool("Move", false);
                 animator.SetBool("Attach", false);
                 animator.SetBool("Jump", true);
                 MovePlayer();
             }
-            else if (state == PlayerState.Attach)
+            else if (state == PlayerState.Attach)// && AttachCan == true)
             {
+                
                 PlayerCollider.offset = new Vector2(0.0f, 0.0f);
-                PlayerCollider.size = new Vector2(2.5f, 4.8f);
+                PlayerCollider.size = new Vector2(1.0f, 4.8f);
+                animator.SetBool("Move", false);
                 animator.SetBool("Attach", true);
                 animator.SetBool("Jump", false);
+                //Turn(wallPos);
+                //AttachCan = false;
 
             }
             else if (state == PlayerState.Death)
             {
                 animator.SetBool("Death", true);
-                StartCoroutine(DeadCount());
                 dided = true;
+                GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
+                GetComponent<Rigidbody2D>().gravityScale = 0.0f;
+                StartCoroutine(DeadCount());
+                return ;
 
             }
 
             isSlidingOnWall = false;
 
             if (state != PlayerState.Attach)
+            {
+                AttachCan = true;
                 GetComponent<Rigidbody2D>().gravityScale = 1.0f;
+            }
 
             if (ObjectCheck() == 2)
             {
                 state = PlayerState.Move;
             }
-
+            
             //WallCheck();
             //FloorCheck();
-
-            Debug.Log(state);
-
             velocityInit = true;
 
         }
@@ -154,11 +166,13 @@ public class BasicControler : MonoBehaviour
 
     IEnumerator DeadCount()
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(1.24f);
         if (playerHealth == 0)
         {
+            Destroy(instance);
             SceneManager.LoadScene("GameOver");
         }
+        GetComponent<Rigidbody2D>().gravityScale = 1.0f;
         animator.SetBool("Death", false);
         transform.position = gameData.SavePoint;
         dided = false;
@@ -168,17 +182,7 @@ public class BasicControler : MonoBehaviour
 
     private void MovePlayer()
     {
-        
-        //if (direction == true)
-        //{
-        //    transform.position += new Vector3(moveSpeed * Time.deltaTime, 0, 0);
-        //    //rigidbodyPlayer.MovePosition(rigidbodyPlayer.position + Direction * speed * Time.deltaTime);
-        //}
-        //else if (direction == false) //변경사항 &&FloorCheck()
-        //{
-        //    transform.position -= new Vector3(moveSpeed * Time.deltaTime, 0, 0);
-        //    //rigidbodyPlayer.MovePosition(rigidbodyPlayer.position + Direction * speed * Time.deltaTime);
-        //}
+
         if (transform.localScale.x > 0)
         {
             transform.position -= new Vector3(moveSpeed * Time.deltaTime, 0, 0);
@@ -195,6 +199,17 @@ public class BasicControler : MonoBehaviour
     {
         if ((Input.GetKeyDown(KeyCode.Space)) && doubleJumpAble == true)
         {
+            if(state == PlayerState.Attach)
+            {
+                if (transform.localScale.x > 0)
+                {
+                    transform.position -= new Vector3(0.22f, 0, 0);
+                }
+                else if (transform.localScale.x < 0)
+                {
+                    transform.position += new Vector3(0.22f, 0, 0);
+                }
+            }
             state = PlayerState.Jump;
             this.direction = true;
 
@@ -260,10 +275,10 @@ public class BasicControler : MonoBehaviour
     private void OnDrawGizmos()
     {
         Vector2 origin = this.transform.position;
-        Vector2 direction = Vector2.left;
+        Vector2 direction = Vector2.down;
 
         Gizmos.color = Color.yellow;
-        RaycastHit2D hits = Physics2D.Raycast(origin, direction, rayLength);
+        RaycastHit2D hits = Physics2D.Raycast(origin, direction, rayLengthFloor);
 
         if(hits.collider != null)
         {
@@ -324,19 +339,40 @@ public class BasicControler : MonoBehaviour
 
         RaycastHit2D[] hits = Physics2D.BoxCastAll(originF, new Vector3(0.3f, 0.01f, 0), 0.0f, directionF, rayLengthFloor);
 
+        if (state == PlayerState.Attach)
+        {
+            float rayDown = 0.5f;
+            hits = Physics2D.BoxCastAll(originF, new Vector3(0.3f, 0.01f, 0), 0.0f, directionF, rayDown);
+        }
 
         foreach (RaycastHit2D hit in hits)
         {
 
             if (hit.collider.CompareTag("Object"))
             {
-                Debug.Log("바닥");
+                if(AttachTp == true)
+                {
+                    if (transform.localScale.x > 0)
+                    {
+                        transform.position -= new Vector3(0.18f, 0, 0);
+                    }
+                    else if (transform.localScale.x < 0)
+                    {
+                        transform.position += new Vector3(0.18f, 0, 0);
+                    }
+                    AttachTp = false;
+                }
                 InitJump();
                 this.direction = true;
+
                 state = PlayerState.Move;
+
                 result = 2;
+                //return result;
             }
         }
+
+        
 
 
         Vector2 origin = this.transform.position;
@@ -346,19 +382,37 @@ public class BasicControler : MonoBehaviour
 
         if (hitss.collider != null)
         {
-            if (hitss.collider.CompareTag("Object"))
+            if (hitss.collider.CompareTag("Object") && AttachCan == true)
             {
+                if (transform.localScale.x > 0)
+                {
+                    transform.position -= new Vector3(0.18f, 0, 0);
+                }
+                else if (transform.localScale.x < 0)
+                {
+                    transform.position += new Vector3(0.18f, 0, 0);
+                }
+
+                GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
+                AttachCan = false;
+                AttachTp = true;
                 InitJump();
+                state = PlayerState.Attach;
 
                 wallPos = hitss.collider.transform.position;
                 Turn(wallPos);
                 WallSliding();
 
-                state = PlayerState.Attach;
+                if (result == 2)
+                {
+                    //Turn(wallPos);
+                    return result;
 
+                }
                 result = 1;
 
             }
+            
 
         }
         direction = Vector2.left;
@@ -367,34 +421,59 @@ public class BasicControler : MonoBehaviour
 
         if (hitss.collider != null)
         {
-            if (hitss.collider.CompareTag("Object"))
+            if (hitss.collider.CompareTag("Object") && AttachCan == true)
             {
-                InitJump();
+                if (transform.localScale.x > 0)
+                {
+                    transform.position -= new Vector3(0.18f, 0, 0);
+                }
+                else if (transform.localScale.x < 0)
+                {
+                    transform.position += new Vector3(0.18f, 0, 0);
+                }
 
+
+                GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
+                AttachCan = false;
+                AttachTp = true;
+                InitJump();
+                state = PlayerState.Attach;
+
+                wallPos = hitss.collider.transform.position;
                 Turn(wallPos);
                 WallSliding();
 
-                state = PlayerState.Attach;
+                
+
+                if (result == 2)
+                {
+                    //Turn(wallPos);
+                    return result;
+
+                }
                 result = 1;
 
             }
+            
         }
-
+        Debug.Log(result);
         return result;
     }
 
     private void Turn(Vector3 wallPos)
     {
-        Debug.Log("턴");
+        
         //transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
-        if (wallPos.x < transform.position.x && direction == true)
+        if (wallPos.x < transform.position.x )//&& direction == true)
         {
+            Debug.Log("턴");
             direction = false;
             transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
             //transform.rotation = new Quaternion(0, 180, 0, 0);
         }
-        else if (wallPos.x > transform.position.x && direction == true)
+        else if (wallPos.x > transform.position.x )// && direction == true)
         {
+            Debug.Log("턴");
             direction = false;
             transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
             //transform.rotation = new Quaternion(0, 0, 0, 0);

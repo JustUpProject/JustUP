@@ -11,13 +11,28 @@ public class Item_Controller : MonoBehaviour
     private ItemUI item;
     private Basic_Item skill;
 
+    [SerializeField] private itemShield skill00;
+    [SerializeField] private Item_Sjump skill03;
+    [SerializeField] private itemSmite skill04;
+    [SerializeField] private Item_clock skill06;
+    [SerializeField] private itemHunt skill08;
+
+
+    [SerializeField] private GameObject script;
+
     private void Awake()
     {
         gameData = Resources.Load<GameData>("ScriptableObject/Datas");
         item = FindObjectOfType<ItemUI>();
         skill = FindObjectOfType<Basic_Item>();
 
-        if(instance == null)
+        skill00 = script.GetComponent<itemShield>();
+        skill03 = script.GetComponent<Item_Sjump>();
+        skill04 = script.GetComponent<itemSmite>();
+        skill06 = script.GetComponent<Item_clock>();
+        skill08 = script.GetComponent<itemHunt>();
+
+        if (instance == null)
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
@@ -52,8 +67,8 @@ public class Item_Controller : MonoBehaviour
 
             if (gameData.Inventory[1] == 0)
             {
-                skill = new itemShield();
-                skill.UseSkill();
+                skill00.UseSkill();
+                
             }
             //else if (gameData.Inventory[1] == 1)
             //{
@@ -67,8 +82,7 @@ public class Item_Controller : MonoBehaviour
             //}
             else if (gameData.Inventory[1] == 3)
             {
-                skill = new Item_Sjump();
-                skill.UseSkill();
+                skill03.UseSkill();
             }
             else if (gameData.Inventory[1] == 4)
             {

@@ -23,18 +23,8 @@ public class itemTurn : Basic_Item
     {
         player = BasicControler.Instance;
 
-        if (Input.GetKeyUp(KeyCode.I))
-        {
-            player.SetDir();
 
-            if (player.getPrivateDir() == true)
-            {
-                player.transform.rotation = new Quaternion(0, 180, 0, 0);
-            }
-            else
-            {
-                player.transform.rotation = new Quaternion(0, 0, 0, 0);
-            }
-        }
+        player.transform.localScale = new Vector3(player.transform.localScale.x * -1, player.transform.localScale.y, player.transform.localScale.z);
+        
     }
 }
