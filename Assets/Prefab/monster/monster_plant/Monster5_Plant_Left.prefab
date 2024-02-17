@@ -179,4 +179,4 @@ MonoBehaviour:
   sizeMonster: 0
   attackAble: 0
   directionRight: 0
-  AttackPrefab: {fileID: 0}
+  AttackPrefab: {fileID: 2425327527022916847, guid: 111fb14e011823348b54d78228f56484, type: 3}

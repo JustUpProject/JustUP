@@ -1,12 +1,13 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
 
-public class FireBall : MonoBehaviour
+public class FireBall_Right : MonoBehaviour
 {
     BasicControler player;
-    chapter_monster5 monster;
+    chapter_monster5_Right monster_right;
     Rigidbody2D fireBallRig;
     [SerializeField] private float speed;
     private bool direction; // right == 1, left == 0
@@ -15,10 +16,9 @@ public class FireBall : MonoBehaviour
     void Start()
     {
         player = FindObjectOfType<BasicControler>();
-        monster = FindObjectOfType<chapter_monster5>();
+        monster_right = FindObjectOfType<chapter_monster5_Right>();
         fireBallRig = FindObjectOfType<Rigidbody2D>();
         fireBallRig.gravityScale = 0f;
-        direction = monster.DirectionRight;
     }
 
     // Update is called once per frame
@@ -34,7 +34,7 @@ public class FireBall : MonoBehaviour
             player.PlayerHit();
             Destroy(gameObject);
         }
-        if (collision.collider.CompareTag("Object"))
+        if (collision.collider.CompareTag("Wall"))
         {
             Destroy(gameObject);
         }
@@ -42,15 +42,9 @@ public class FireBall : MonoBehaviour
 
     private void Move()
     {
-        if (direction)
-        {
-            transform.position += new Vector3(Time.deltaTime * speed * -1, 0, 0);
 
-        }
-        else
-        {
-            transform.rotation = new Quaternion(0, 180, 0, 0);
-            transform.position += new Vector3(Time.deltaTime * speed, 0, 0);
-        }
+        transform.rotation = new Quaternion(0, 180, 0, 0);
+        transform.position += new Vector3(Time.deltaTime * speed, 0, 0);
+
     }
 }
