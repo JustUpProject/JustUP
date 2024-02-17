@@ -5,11 +5,8 @@ public class GameOverSceneManager : MonoBehaviour
 {
 
     // Update is called once per frame
-    void Update()
+    public void StartMainBtn()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            SceneManager.LoadScene("JinHo_Scenes");
-        }
+        SceneManager.LoadScene("Sangjin_Scene");
     }
 }

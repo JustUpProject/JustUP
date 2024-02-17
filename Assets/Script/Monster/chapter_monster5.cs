@@ -8,12 +8,14 @@ public class chapter_monster5 : BasicMonster
     [SerializeField] private float attackAble;
     [SerializeField] private bool directionRight;
     [SerializeField] private GameObject AttackPrefab;
+    private UseingItem item;
     public bool DirectionRight { get => directionRight; }  // object Direction right == 1, left == 0
     private Animator animator;
 
 
     private void Start()
     {
+        item = FindObjectOfType<UseingItem>();
         animator = GetComponent<Animator>();
         StartCoroutine(AttactAble());
 

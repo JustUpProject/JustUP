@@ -23,6 +23,7 @@ public class ItemUI : MonoBehaviour
     private Sprite item08;
     private Sprite item09;
     private Sprite item10;
+    private Sprite item63;
 
     private void Awake()
     {
@@ -34,6 +35,7 @@ public class ItemUI : MonoBehaviour
         item04 = Resources.Load<Sprite>("Image/skill_icon_smite");
         item06 = Resources.Load<Sprite>("Image/skill_icon_clock");
         item07 = Resources.Load<Sprite>("Image/skill_icon_hide");
+        item63 = Resources.Load<Sprite>("Image/item_background");
 
         if (item00 == null || item01 == null || item02 == null || item04 == null || item07 == null)
         {
@@ -112,6 +114,7 @@ public class ItemUI : MonoBehaviour
                 icon.sprite = item09;
                 break;
             case 63:
+                icon.sprite = item63;
                 break;
             default:
                 Debug.Log("Not Find current Item.");
