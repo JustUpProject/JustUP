@@ -27,15 +27,14 @@ public enum State
 public class BasicMonster : MonoBehaviour
 {
     private BasicControler player;
-    private itemShield itemshield;
     private itemHunt itemhunt;
+    private UseingItem item;
 
     public MonsterType type;
     public State state;
 
     private float monsterSturnTime = 0f;
 
-    private bool direction = false; // true = ¿À¸¥ÂÊ x++, false = ¿ÞÂÊ x--
     [SerializeField]
     public float speedMonster;
     [SerializeField]
@@ -45,12 +44,10 @@ public class BasicMonster : MonoBehaviour
     protected void Start()
     {
         player = BasicControler.Instance;
-
-
-        itemshield = FindObjectOfType<itemShield>();
-        if (itemshield == null)
-            itemshield = GetComponent<itemShield>();
-
+        //item = player.GetComponent<UseingItem>();
+        item = FindObjectOfType<UseingItem>();
+        if (item == null)
+            Debug.Log("x");
         itemhunt = FindObjectOfType<itemHunt>();
         if (itemhunt == null)
             itemhunt = GetComponent<itemHunt>();
@@ -59,6 +56,7 @@ public class BasicMonster : MonoBehaviour
     // Update is called once per frame
     protected virtual void Update()
     {
+        Debug.Log(item);
         monsterSturnTime -= Time.deltaTime;
 
         if (monsterSturnTime <= 0f) // + item Smite
@@ -81,12 +79,8 @@ public class BasicMonster : MonoBehaviour
         {
             if (type == MonsterType.AttackAble)
             {
-                //if (itemhide.usedHunt)
-                //{
-                //    Destroy(this.gameObject);
-                //    return;
-                //}
-
+                if (item.ItemActivate == true)
+                    Destroy(gameObject);
                 if (player.transform.position.y - 0.3f > transform.position.y + 0.3f)
                 {
                     player.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 3, 0);
@@ -97,6 +91,8 @@ public class BasicMonster : MonoBehaviour
 
             else if (type == MonsterType.ItemAttackAble)
             {
+                if (item.ItemActivate == true)
+                    Destroy(gameObject);
                 player.PlayerHit();
             }
 
@@ -104,21 +100,20 @@ public class BasicMonster : MonoBehaviour
             {
 
             }
-            if(itemshield != null)
-            {
-                if (itemshield.shield == StatShield.broken)
-                {
-                    itemshield.time = 1f;
-                }
-                else
-                {
-                    player.PlayerHit();
-                }
-            }
-            else
-            {
-                player.PlayerHit();
-            }
+            //if(itemshield != null)
+            //{
+            //    if (itemshield.shield == StatShield.broken)
+            //    {
+            //        itemshield.time = 1f;
+            //    }
+            //    else
+            //    {
+            //        player.PlayerHit();
+            //    }
+            //}
+            
+            player.PlayerHit();
+            
         }
     }
 
