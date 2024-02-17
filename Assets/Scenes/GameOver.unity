@@ -383,8 +383,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 947329036}
-        m_TargetAssemblyTypeName: game_start, Assembly-CSharp
-        m_MethodName: StartBtn
+        m_TargetAssemblyTypeName: go_select_scene, Assembly-CSharp
+        m_MethodName: SceneChange
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -441,7 +441,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 947329031}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8700dd0331d10954ebfb4c1dd9472f14, type: 3}
+  m_Script: {fileID: 11500000, guid: 28fb96eff7e9f804986749dfaaedec1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1172052542

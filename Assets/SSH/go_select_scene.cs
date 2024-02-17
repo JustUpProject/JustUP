@@ -8,6 +8,6 @@ public class go_select_scene : MonoBehaviour
     public void SceneChange()
     {
         Time.timeScale = 1.0f;
-        SceneManager.LoadScene("Select_Scenes_test");
+        SceneManager.LoadScene("Main_Map");
     }
 }
