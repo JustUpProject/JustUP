@@ -36,8 +36,9 @@ public class chapter1Monster4 : BasicMonster
         spiderRig = FindObjectOfType<Rigidbody2D>();
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         colliderUP.size = new Vector2(0.2f, 4f);
         colliderUP.offset = new Vector2(0f, 9f);
         colliderUP.isTrigger = true;
