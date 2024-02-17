@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+
 
 public enum StatSmite
 {
@@ -12,11 +14,16 @@ public enum StatSmite
 public class UseingItem : MonoBehaviour
 {
     private GameData item;
+    public GameObject itemGeneratingPrefab;
     StatSmite smite;
 
+
     private SpriteRenderer effectPrefab;
+    private float playerOriginMovingSpeed;
+    [SerializeField] private float jumpPower = 10f;
     public bool UseItem;
     public bool ItemActivate;
+    public bool ItemHunted;
 
     // Start is called before the first frame update
     void Start()
@@ -47,9 +54,31 @@ public class UseingItem : MonoBehaviour
                 StartCoroutine(UseingShield());
                 
             }
+            else if (item.Inventory[1] == 2)
+            {
+                item.Inventory[1] = 63;
+                Item_Controller.Instance.item.ItemUpdate();
+                if (BasicControler.Instance != null)
+                {
+                    if (BasicControler.Instance.transform.rotation.y == 0)
+                    {
+                        Vector3 playerPosition = BasicControler.Instance.transform.position;
+                        Vector3 itemPosition = new Vector3(playerPosition.x - 1f, playerPosition.y - 1f, playerPosition.z);
+                        Instantiate(itemGeneratingPrefab, itemPosition, Quaternion.identity);
+                    }
+                    else
+                    {
+                        Vector3 playerPosition = BasicControler.Instance.transform.position;
+                        Vector3 itemPosition = new Vector3(playerPosition.x + 1f, playerPosition.y - 1f, playerPosition.z);
+                        Instantiate(itemGeneratingPrefab, itemPosition, Quaternion.identity);
+                    }
+                }
+            }
             else if (item.Inventory[1] == 3)
             {
-
+                item.Inventory[1] = 63;
+                Item_Controller.Instance.item.ItemUpdate();
+                BasicControler.Instance.GetComponent<Rigidbody2D>().velocity = new Vector3(0, jumpPower, 0);
             }
             else if (item.Inventory[1] == 4)
             {
@@ -66,7 +95,10 @@ public class UseingItem : MonoBehaviour
             }
             else if (item.Inventory[1] == 8)
             {
-
+                initHunt();
+                item.Inventory[1] = 63;
+                Item_Controller.Instance.item.ItemUpdate();
+                StartCoroutine(itemHunt());
             }
             else if (item.Inventory[1] == 9)
             {
@@ -81,8 +113,9 @@ public class UseingItem : MonoBehaviour
         UseItem = true;
         ItemActivate = true;
         if (effectPrefab == null)
-            Debug.Log("¸øÃ£À½");
+            Debug.Log("Â¸Ã¸ÃƒÂ£Ã€Â½");
     }
+
 
     IEnumerator ShieldAnimation()
     {
@@ -94,9 +127,25 @@ public class UseingItem : MonoBehaviour
         yield return null;
     }
 
+    void initHunt()
+    {
+        ItemHunted = true;
+        playerOriginMovingSpeed = BasicControler.Instance.moveSpeed;
+        BasicControler.Instance.moveSpeed = BasicControler.Instance.moveSpeed * 1.3f;
+    }
+
+    IEnumerator itemHunt()
+    {
+        yield return new WaitForSeconds(5.0f);
+
+        ItemHunted = false;
+        BasicControler.Instance.moveSpeed = playerOriginMovingSpeed; 
+
+        yield return null;
+    }
     IEnumerator UseingShield()
     {
-        Debug.Log("¾ÆÀÌÅÛ");
+        Debug.Log("Â¾Ã†Ã€ÃŒÃ…Ã›");
         effectPrefab.enabled = true;
         yield return new WaitForSeconds(3.0f);
 
