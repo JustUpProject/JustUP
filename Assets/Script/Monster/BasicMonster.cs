@@ -87,7 +87,7 @@ public class BasicMonster : MonoBehaviour
                 //    return;
                 //}
 
-                if (player.transform.position.y - 0.3f > transform.position.y + 0.2f)
+                if (player.transform.position.y - 0.3f > transform.position.y + 0.3f)
                 {
                     player.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 3, 0);
                     Destroy(this.gameObject);
@@ -104,10 +104,16 @@ public class BasicMonster : MonoBehaviour
             {
 
             }
-
-            if (itemshield.shield == StatShield.broken)
+            if(itemshield != null)
             {
-                itemshield.timer = 1f;
+                if (itemshield.shield == StatShield.broken)
+                {
+                    itemshield.time = 1f;
+                }
+                else
+                {
+                    player.PlayerHit();
+                }
             }
             else
             {
@@ -127,7 +133,6 @@ public class BasicMonster : MonoBehaviour
 
     protected void Turn()
     {
-        Debug.Log("ео");
         state = State.Move;
         transform.localScale = new Vector3(-1 * transform.localScale.x, transform.localScale.y, transform.localScale.z);
         OnDirectionChanged();
@@ -153,7 +158,6 @@ public class BasicMonster : MonoBehaviour
             if (hit.collider == null)
             {
                 Debug.Log(hitFoward.collider);
-                Debug.Log("аб");
                 Turn();
             }
         }
@@ -170,7 +174,6 @@ public class BasicMonster : MonoBehaviour
 
             if (hit.collider == null)
             {
-                Debug.Log("©Л");
                 Turn();
             }
         }
