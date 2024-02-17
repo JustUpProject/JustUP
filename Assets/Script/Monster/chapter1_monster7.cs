@@ -7,6 +7,7 @@ public class chapter1_monster7 : MonoBehaviour
     private Vector3 startPos;
     public float upwardSpeed = 2.0f;
     public float downwardSpeed = 4.0f;
+    [SerializeField] private float arrange = 3.0f;
 
     private bool movingUp = true;
     private BasicControler player;
@@ -23,11 +24,11 @@ public class chapter1_monster7 : MonoBehaviour
         Vector3 currentPosition = transform.position;
         float newPositionY = currentPosition.y + movement * Time.deltaTime;
 
-        newPositionY = Mathf.Clamp(newPositionY, startPos.y -3.0f, startPos.y +3.0f);
+        newPositionY = Mathf.Clamp(newPositionY, startPos.y -arrange, startPos.y +arrange);
 
         transform.position = new Vector3(currentPosition.x, newPositionY, currentPosition.z);
 
-        if (newPositionY >= startPos.y + 3.0f || newPositionY <= startPos.y - 3.0f)
+        if (newPositionY >= startPos.y + arrange || newPositionY <= startPos.y - arrange)
         {
             movingUp = !movingUp;
         }
