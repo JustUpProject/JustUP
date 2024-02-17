@@ -34,19 +34,16 @@ public class chapter_monster5 : BasicMonster
 
     IEnumerator Attack()
     {
-        Debug.Log("발사");
         animator.SetBool("Attack", true);
         yield return new WaitForSeconds(1.6f);
 
         if (DirectionRight)
         {
-            Debug.Log("오른쪽 발사");
             Instantiate(AttackPrefab, transform.position + new Vector3(-0.3f, 0, 0), transform.rotation);
 
         }
         else
         {
-            Debug.Log("왼쪽 발사");
             Instantiate(AttackPrefab, transform.position + new Vector3(0.3f, 0, 0), transform.rotation);
         }
     }
