@@ -27,11 +27,11 @@ public class BasicControler : MonoBehaviour
 
     private GameData gameData;
     private UseingItem useItem;
-    private Animator animator;
+    public Animator animator;
 
 
-    private bool firstJumpAble = true; //�÷��̾��� ���� ���� ���� üũ
-    private bool doubleJumpAble = true; //�÷��̾��� ���� ���� ���� ���� üũ
+    public bool firstJumpAble = true; //�÷��̾��� ���� ���� ���� üũ
+    public bool doubleJumpAble = true; //�÷��̾��� ���� ���� ���� ���� üũ
     private bool isSlidingOnWall = false; //�÷��̾ ���� ����ִ��� ���� üũ
     private bool velocityInit = true;
     private bool dided = false;
