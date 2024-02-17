@@ -35,7 +35,7 @@ public class object_floor : MonoBehaviour
     {
         if (playerPos.y > thisPos.y+0.05f)
         {
-            transform.gameObject.tag = "Floor";
+            transform.gameObject.tag = "Object";
             boxCollider2D.enabled = true;
         }
         else if (playerPos.y < thisPos.y)
