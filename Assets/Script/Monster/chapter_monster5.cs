@@ -13,9 +13,9 @@ public class chapter_monster5 : BasicMonster
     private Animator animator;
 
 
-    private void Start()
+    protected override void Start()
     {
-        item = FindObjectOfType<UseingItem>();
+        base.Start();
         animator = GetComponent<Animator>();
         StartCoroutine(AttactAble());
 
