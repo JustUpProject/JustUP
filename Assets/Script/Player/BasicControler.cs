@@ -411,7 +411,6 @@ public class BasicControler : MonoBehaviour
 
         else if (AttachCan == false && state == PlayerState.Attach)
         {
-            Debug.Log("버그");
             if (transform.lossyScale.x > 0)
             {
 
