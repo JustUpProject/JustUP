@@ -6,6 +6,8 @@ public class UIController : MonoBehaviour
     BasicControler player;
 
     public Text playerHealth;
+
+
     // Start is called before the first frame update
     void Start()
     {

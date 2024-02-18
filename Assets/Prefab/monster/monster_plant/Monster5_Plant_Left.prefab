@@ -18,15 +18,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: ffa351362e8b59d4ab5cc2927b409c01, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.25
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: ffa351362e8b59d4ab5cc2927b409c01, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.25
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: ffa351362e8b59d4ab5cc2927b409c01, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.25
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: ffa351362e8b59d4ab5cc2927b409c01, type: 3}
       propertyPath: m_LocalPosition.x
@@ -70,7 +70,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: ffa351362e8b59d4ab5cc2927b409c01, type: 3}
       propertyPath: m_ConstrainProportionsScale
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8911997174455611925, guid: ffa351362e8b59d4ab5cc2927b409c01, type: 3}
       propertyPath: m_LocalPosition.x
@@ -92,7 +92,7 @@ PrefabInstance:
       addedObject: {fileID: 6265721302035462438}
     - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: ffa351362e8b59d4ab5cc2927b409c01, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3739812580374891675}
+      addedObject: {fileID: 1442992073595440792}
   m_SourcePrefab: {fileID: 4843985084834002234, guid: ffa351362e8b59d4ab5cc2927b409c01, type: 3}
 --- !u!1 &9041254973602309009 stripped
 GameObject:
@@ -165,7 +165,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.6653595, y: 3.0444384}
   m_EdgeRadius: 0
---- !u!114 &3739812580374891675
+--- !u!114 &1442992073595440792
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -177,10 +177,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 616cc82a700a344419c9c973eea36f05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
-  state: 0
+  Pos: 0
+  type: 1
+  state: 2
   speedMonster: 0
   sizeMonster: 0
-  attackAble: 0
-  directionRight: 0
+  attackAble: 3
+  directionRight: 1
   AttackPrefab: {fileID: 2425327527022916847, guid: 111fb14e011823348b54d78228f56484, type: 3}
