@@ -2,17 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.UI.Image;
 
 public class objectIce : MonoBehaviour
 {
     [SerializeField] LayerMask Player;
+    Vector2 objectPos;
+    Vector2 size;
+    Vector2 dir;
+    LayerMask playerMask;
 
+    private float distance;
     private float originSlide;
     private float originMoveSpeed;
     private float changeMoveSpeed;
 
     private void Start()
     {
+        objectPos = transform.position;
+        size = transform.localScale;
+        distance = 0.5f;
+        playerMask = LayerMask.GetMask("Player");
+
         originSlide = BasicControler.Instance.slidingSpeed;
         originMoveSpeed = BasicControler.Instance.moveSpeed;
         changeMoveSpeed = BasicControler.Instance.moveSpeed*1.3f;
@@ -20,10 +31,42 @@ public class objectIce : MonoBehaviour
 
     private void Update()
     {
-        Vector2 vecL = this.transform.position;
-        Vector2 directionL = Vector2.left;
+       if(BasicControler.Instance.transform.position.x <this.gameObject.transform.position.x)
+        {
+            dir = Vector2.left;
 
-        RaycastHit2D[] hirs = Physics2D.BoxCastAll(vecL, directionL);
+            RaycastHit2D[] hits = Physics2D.BoxCastAll(objectPos, size, 0f, dir, distance, playerMask);
+
+            foreach (RaycastHit2D hit in hits)
+            {
+                if (hit.collider.CompareTag("Player"))
+                {
+                    BasicControler.Instance.slidingSpeed = 1f;
+                }
+                else
+                    BasicControler.Instance.slidingSpeed = originSlide;
+            }
+
+
+        //RaycastHit2D[] hirs = Physics2D.BoxCastAll(vecL, directionL);
+
+        }
+       else if(BasicControler.Instance.transform.position.x < this.gameObject.transform.position.x)
+        {
+            dir = Vector2.right;
+            RaycastHit2D[] hits = Physics2D.BoxCastAll(objectPos, size, 0f, dir, distance, playerMask);
+
+            foreach (RaycastHit2D hit in hits)
+            {
+                if (hit.collider.CompareTag("Player"))
+                {
+                    BasicControler.Instance.slidingSpeed = 1f;
+                }
+                else
+                    BasicControler.Instance.slidingSpeed = originSlide;
+            }
+        }
+
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -32,7 +75,7 @@ public class objectIce : MonoBehaviour
         {
            if (BasicControler.Instance.ObjectCheck() == 2)
             {
-                BasicControler.Instance.moveSpeed =changeMoveSpeed;
+                BasicControler.Instance.moveSpeed = changeMoveSpeed;
             }
         }
     }
