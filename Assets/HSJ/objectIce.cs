@@ -23,7 +23,7 @@ public class objectIce : MonoBehaviour
         Vector2 vecL = this.transform.position;
         Vector2 directionL = Vector2.left;
 
-        RaycastHit2D[] hirs = Physics2D.BoxCastAll(vecL, directionL);
+        //RaycastHit2D[] hirs = Physics2D.BoxCastAll(vecL, directionL);
     }
 
     private void OnCollisionStay2D(Collision2D collision)
