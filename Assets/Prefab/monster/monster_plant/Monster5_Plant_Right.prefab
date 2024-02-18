@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Monster5_Plant_Right
       objectReference: {fileID: 0}
+    - target: {fileID: -8653719598885068355, guid: ffa351362e8b59d4ab5cc2927b409c01, type: 3}
+      propertyPath: m_TagString
+      value: Monster
+      objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: ffa351362e8b59d4ab5cc2927b409c01, type: 3}
       propertyPath: m_LocalScale.x
       value: -0.25

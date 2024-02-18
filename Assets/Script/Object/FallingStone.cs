@@ -48,7 +48,7 @@ public class FallingStone : MonoBehaviour
     {
         if (collision.collider.CompareTag("Player"))
         {
-            player.PlayerHit();
+            player.PlayerHit(gameObject.tag);
         }
         Destroy(gameObject);
 
