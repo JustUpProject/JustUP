@@ -30,7 +30,7 @@ public class FireBall_Left : MonoBehaviour
     {
         if (collision.collider.CompareTag("Player"))
         {
-            player.PlayerHit();
+            player.PlayerHit(gameObject.tag);
             Destroy(gameObject);
         }
         if (collision.collider.CompareTag("Wall"))

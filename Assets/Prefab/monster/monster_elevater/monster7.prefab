@@ -10,11 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8653719598885068355, guid: a2811c80e3d26504984c973a5a620886, type: 3}
       propertyPath: m_Name
-      value: "\uCFF5\uCFF5\uC774_psb"
+      value: monster7
       objectReference: {fileID: 0}
     - target: {fileID: -8653719598885068355, guid: a2811c80e3d26504984c973a5a620886, type: 3}
       propertyPath: m_TagString
-      value: Floor
+      value: Object
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: a2811c80e3d26504984c973a5a620886, type: 3}
       propertyPath: m_LocalScale.x
@@ -126,6 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upwardSpeed: 2
   downwardSpeed: 4
+  arrange: 3
 --- !u!61 &7611877811278717814
 BoxCollider2D:
   m_ObjectHideFlags: 0
