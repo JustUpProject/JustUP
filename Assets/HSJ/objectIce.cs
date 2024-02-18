@@ -47,6 +47,9 @@ public class objectIce : MonoBehaviour
                     BasicControler.Instance.slidingSpeed = originSlide;
             }
 
+
+        //RaycastHit2D[] hirs = Physics2D.BoxCastAll(vecL, directionL);
+
         }
        else if(BasicControler.Instance.transform.position.x < this.gameObject.transform.position.x)
         {
@@ -63,6 +66,7 @@ public class objectIce : MonoBehaviour
                     BasicControler.Instance.slidingSpeed = originSlide;
             }
         }
+
     }
 
     private void OnCollisionStay2D(Collision2D collision)
