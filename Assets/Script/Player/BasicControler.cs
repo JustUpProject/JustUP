@@ -35,7 +35,7 @@ public class BasicControler : MonoBehaviour
     private bool isSlidingOnWall = false; //�÷��̾ ���� ����ִ��� ���� üũ
     private bool velocityInit = true;
     private bool dided = false;
-    private bool AttachCan = true;
+    [SerializeField] private bool AttachCan = true;
     private bool AttachTp = false;
 
     public float rayLength;
@@ -126,7 +126,7 @@ public class BasicControler : MonoBehaviour
             {
                 
                 PlayerCollider.offset = new Vector2(0.0f, 0.0f);
-                PlayerCollider.size = new Vector2(1.0f, 4.8f);
+                PlayerCollider.size = new Vector2(1.0f, 4.0f);
                 animator.SetBool("Move", false);
                 animator.SetBool("Attach", true);
                 animator.SetBool("Jump", false);
@@ -313,90 +313,140 @@ public class BasicControler : MonoBehaviour
             }
         }
 
+        if (AttachCan == true)
+        {
+            if (transform.lossyScale.x < 0)
+            {
+
+                Vector2 origin = this.transform.position;
+
+                Vector2 direction = Vector2.right;
+                RaycastHit2D hitss = Physics2D.Raycast(origin, direction, rayLength, wallMask);
+
+                if (hitss.collider != null)
+                {
+                    if (hitss.collider.CompareTag("Object") && AttachCan == true)
+                    {
+                        if (transform.localScale.x > 0)
+                        {
+                            transform.position -= new Vector3(0.18f, 0, 0);
+                        }
+                        else if (transform.localScale.x < 0)
+                        {
+                            transform.position += new Vector3(0.18f, 0, 0);
+                        }
+
+                        GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
+                        AttachCan = false;
+                        AttachTp = true;
+                        InitJump();
+                        state = PlayerState.Attach;
+
+                        wallPos = hitss.collider.transform.position;
+                        Turn(wallPos);
+                        WallSliding();
+
+                        if (result == 2)
+                        {
+                            //Turn(wallPos);
+                            return result;
+
+                        }
+                        result = 1;
+
+                    }
+
+
+                }
+            }
+
+            else if (transform.lossyScale.x > 0)
+            {
+                Vector2 origin = this.transform.position;
+
+                Vector2 direction = Vector2.left;
+
+                RaycastHit2D hitss = Physics2D.Raycast(origin, direction, rayLength, wallMask);
+
+                if (hitss.collider != null)
+                {
+                    if (hitss.collider.CompareTag("Object") && AttachCan == true)
+                    {
+                        if (transform.localScale.x > 0)
+                        {
+                            transform.position -= new Vector3(0.18f, 0, 0);
+                        }
+                        else if (transform.localScale.x < 0)
+                        {
+                            transform.position += new Vector3(0.18f, 0, 0);
+                        }
+
+
+                        GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
+                        AttachCan = false;
+                        AttachTp = true;
+                        InitJump();
+                        state = PlayerState.Attach;
+
+                        wallPos = hitss.collider.transform.position;
+                        Turn(wallPos);
+                        WallSliding();
+
+
+
+                        if (result == 2)
+                        {
+                            //Turn(wallPos);
+                            return result;
+
+                        }
+                        result = 1;
+
+                    }
+
+                }
+            }
+
+        }
+
+        else if (AttachCan == false && state == PlayerState.Attach)
+        {
+            Debug.Log("버그");
+            if (transform.lossyScale.x > 0)
+            {
+
+                Vector2 origin = this.transform.position;
+
+                Vector2 direction = Vector2.right;
+                RaycastHit2D hitss = Physics2D.Raycast(origin, direction, rayLength, wallMask);
+
+                if ( hitss.collider == null)
+                {
+
+                    transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
+                    return 2;
+
+                }
+            }
+
+            else if (transform.lossyScale.x < 0)
+            {
+                Vector2 origin = this.transform.position;
+
+                Vector2 direction = Vector2.left;
+
+                RaycastHit2D hitss = Physics2D.Raycast(origin, direction, rayLength, wallMask);
+
+                if ( hitss.collider == null)
+                {
+                    transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
+                    return 2;
+
+                }
+            }
+        }
+
         
-
-
-        Vector2 origin = this.transform.position;
-
-        Vector2 direction = Vector2.right;
-        RaycastHit2D hitss = Physics2D.Raycast(origin, direction, rayLength, wallMask);
-       
-        if (hitss.collider != null)
-        {
-            if (hitss.collider.CompareTag("Object") && AttachCan == true)
-            {
-                if (transform.localScale.x > 0)
-                {
-                    transform.position -= new Vector3(0.18f, 0, 0);
-                }
-                else if (transform.localScale.x < 0)
-                {
-                    transform.position += new Vector3(0.18f, 0, 0);
-                }
-
-                GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
-                AttachCan = false;
-                AttachTp = true;
-                InitJump();
-                state = PlayerState.Attach;
-
-                wallPos = hitss.collider.transform.position;
-                Turn(wallPos);
-                WallSliding();
-
-                if (result == 2)
-                {
-                    //Turn(wallPos);
-                    return result;
-
-                }
-                result = 1;
-
-            }
-            
-
-        }
-        direction = Vector2.left;
-
-        hitss = Physics2D.Raycast(origin, direction, rayLength, wallMask);
-       
-        if (hitss.collider != null)
-        {
-            if (hitss.collider.CompareTag("Object") && AttachCan == true)
-            {
-                if (transform.localScale.x > 0)
-                {
-                    transform.position -= new Vector3(0.18f, 0, 0);
-                }
-                else if (transform.localScale.x < 0)
-                {
-                    transform.position += new Vector3(0.18f, 0, 0);
-                }
-
-
-                GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
-                AttachCan = false;
-                AttachTp = true;
-                InitJump();
-                state = PlayerState.Attach;
-
-                wallPos = hitss.collider.transform.position;
-                Turn(wallPos);
-                WallSliding();
-
-                
-
-                if (result == 2)
-                {
-                    //Turn(wallPos);
-                    return result;
-
-                }
-                result = 1;
-
-            }
-            
-        }
         return result;
     }
 
