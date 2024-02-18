@@ -84,6 +84,8 @@ public class UseingItem : MonoBehaviour
             }
             else if (item.Inventory[1] == 4)
             {
+                if (BasicControler.Instance.state == PlayerState.Attach)
+                    return;
                 initSmite();
                 item.Inventory[1] = 63;
                 Item_Controller.Instance.item.ItemUpdate();
@@ -111,9 +113,12 @@ public class UseingItem : MonoBehaviour
         }
         if (useItemSmite == true)
         {
+            BasicControler.Instance.animator.SetBool("SmiteActive", true);
+
             objectCheckResult = BasicControler.Instance.ObjectCheck();
             if(objectCheckResult == 2)
             {
+                BasicControler.Instance.animator.SetBool("SmiteActive", false);
                 sturnTime = sturnTime + flightTime;
                 StartCoroutine(usingSmite(sturnTime));
             }
@@ -160,7 +165,6 @@ public class UseingItem : MonoBehaviour
     }
     IEnumerator UseingShield()
     {
-        Debug.Log("¾ÆÀÌÅÛ");
         effectPrefab.enabled = true;
         yield return new WaitForSeconds(3.0f);
 

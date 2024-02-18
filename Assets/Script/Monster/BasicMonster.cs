@@ -30,6 +30,8 @@ public class BasicMonster : MonoBehaviour
     private itemHunt itemhunt;
     private UseingItem item;
 
+    [SerializeField] protected float Pos;
+
     public MonsterType type;
     public State state;
 
@@ -46,10 +48,6 @@ public class BasicMonster : MonoBehaviour
         player = BasicControler.Instance;
         item = player.GetComponent<UseingItem>();
         //item = FindObjectOfType<UseingItem>();
-
-        itemhunt = FindObjectOfType<itemHunt>();
-        if (itemhunt == null)
-            itemhunt = GetComponent<itemHunt>();
     }
 
     // Update is called once per frame
@@ -77,11 +75,13 @@ public class BasicMonster : MonoBehaviour
         {
             if (type == MonsterType.AttackAble)
             {
+
                 if (item.ItemActivate == true)
                     Destroy(gameObject);
                 else if (item.ItemHunted == true)
                     Destroy(gameObject);
-                if (player.transform.position.y - 0.3f > transform.position.y + 0.3f)
+
+                if (player.transform.position.y - 0.3f > transform.position.y + 0.3f - Pos)
                 {
                     player.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 3, 0);
                     Destroy(this.gameObject);
@@ -96,6 +96,7 @@ public class BasicMonster : MonoBehaviour
                 else if (item.ItemHunted == true)
                     Destroy(gameObject); 
                 player.PlayerHit(gameObject.tag);
+                return;
             }
 
             else if (type == MonsterType.NotAttackAble)
@@ -117,6 +118,11 @@ public class BasicMonster : MonoBehaviour
             player.PlayerHit(gameObject.tag);
             
         }
+    }
+
+    protected virtual void OnDestroy()
+    {
+        
     }
 
     protected virtual void MoveMonster()
@@ -150,11 +156,9 @@ public class BasicMonster : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(originL, directionDown, 1);
             RaycastHit2D hitFoward = Physics2D.Raycast(origin, direction, 1);
 
-            Debug.Log(hitFoward.collider);
 
             if (hit.collider == null)
             {
-                Debug.Log(hitFoward.collider);
                 Turn();
             }
         }

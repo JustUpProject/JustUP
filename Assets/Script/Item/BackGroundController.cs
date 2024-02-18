@@ -8,6 +8,6 @@ public class BackGroundController : MonoBehaviour
     
     private void Update()
     {
-        transform.position = new Vector3(0, (BasicControler.Instance.gameObject.transform.position.y / 5) + 3.0f, 0);
+        transform.position = new Vector3(0, (BasicControler.Instance.gameObject.transform.position.y / 1.4f), 0);
     }
 }
