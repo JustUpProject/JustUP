@@ -55,7 +55,6 @@ public class BasicMonster : MonoBehaviour
     // Update is called once per frame
     protected virtual void Update()
     {
-        Debug.Log(item);
         monsterSturnTime -= Time.deltaTime;
 
         if (monsterSturnTime <= 0f) // + item Smite
@@ -95,8 +94,8 @@ public class BasicMonster : MonoBehaviour
                 if (item.ItemActivate == true)
                     Destroy(gameObject);
                 else if (item.ItemHunted == true)
-                    Destroy(gameObject);
-                player.PlayerHit();
+                    Destroy(gameObject); 
+                player.PlayerHit(gameObject.tag);
             }
 
             else if (type == MonsterType.NotAttackAble)
@@ -115,7 +114,7 @@ public class BasicMonster : MonoBehaviour
             //    }
             //}
             
-            player.PlayerHit();
+            player.PlayerHit(gameObject.tag);
             
         }
     }

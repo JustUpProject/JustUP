@@ -14,13 +14,15 @@ public enum StatSmite
 public class UseingItem : MonoBehaviour
 {
     private GameData item;
-    public GameObject itemGeneratingPrefab;
-    StatSmite smite;
-
-
-    private SpriteRenderer effectPrefab;
-    private float playerOriginMovingSpeed;
-    [SerializeField] private float jumpPower = 10f;
+    public GameObject itemGeneratingPrefab; // used item Generating
+    private bool useItemSmite;
+    int objectCheckResult;
+    private float flightTime;
+    private float sturnTime;
+    private Vector2 detectArea;
+    private SpriteRenderer effectPrefab; // used item Generating
+    private float playerOriginMovingSpeed; //used item Hunt
+    [SerializeField] private float jumpPower = 10f; 
     public bool UseItem;
     public bool ItemActivate;
     public bool ItemHunted;
@@ -82,10 +84,10 @@ public class UseingItem : MonoBehaviour
             }
             else if (item.Inventory[1] == 4)
             {
-                initShield();
+                initSmite();
                 item.Inventory[1] = 63;
-
-
+                Item_Controller.Instance.item.ItemUpdate();
+                BasicControler.Instance.GetComponent<Rigidbody2D>().velocity = new Vector2(0, jumpPower / 4);
             }
             else if (item.Inventory[1] == 6)
             {
@@ -105,6 +107,19 @@ public class UseingItem : MonoBehaviour
                 item.Inventory[1] = 63;
                 Item_Controller.Instance.item.ItemUpdate();
                 BasicControler.Instance.transform.localScale = new Vector3(BasicControler.Instance.transform.localScale.x*-1, BasicControler.Instance.transform.localScale.y, BasicControler.Instance.transform.localScale.z);
+            }
+        }
+        if (useItemSmite == true)
+        {
+            objectCheckResult = BasicControler.Instance.ObjectCheck();
+            if(objectCheckResult == 2)
+            {
+                sturnTime = sturnTime + flightTime;
+                StartCoroutine(usingSmite(sturnTime));
+            }
+            else
+            {
+                flightTime += Time.deltaTime;
             }
         }
     }
@@ -175,6 +190,34 @@ public class UseingItem : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         Time.timeScale = 1.0f;
         yield return null;
+    }
+    void initSmite()
+    {
+        useItemSmite = true;
+        detectArea = new Vector2(10f, 10f);
+        flightTime = 0.1f;
+        sturnTime = 0.5f;
+    }
+    IEnumerator usingSmite(float time) 
+    {
+        useItemSmite = false;
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(BasicControler.Instance.transform.position, detectArea, 0f);
+        foreach (Collider2D collider in colliders)
+        {
+            Debug.Log(collider.gameObject);
+            if (collider.gameObject.CompareTag("Monster"))
+            {
+                BasicMonster detectedMonster = collider.gameObject.GetComponent<BasicMonster>();
+                    
+                if (detectedMonster != null)
+                {
+                    detectedMonster.setSturnTime(time);
+                    yield return null;
+                }
+                else
+                    yield return null;
+            }
+        }
     }
 }
 //if (Input.GetKeyDown(KeyCode.I))

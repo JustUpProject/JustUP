@@ -479,13 +479,22 @@ public class BasicControler : MonoBehaviour
         }
     }
 
-    public void PlayerHit()
+    public void PlayerHit(string tag)
     {
         if (useItem.ItemActivate == true)
         {
             useItem.UseItem = false;
             return;
         }
+        if(useItem.ItemHunted == true&&tag=="Monster")
+        {
+            return;
+        }
+        playerHealth -= 1;
+        state = PlayerState.Death;
+    }
+    public void ObjectPlayerHit()
+    {
         playerHealth -= 1;
         state = PlayerState.Death;
     }

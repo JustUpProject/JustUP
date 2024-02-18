@@ -38,7 +38,7 @@ public class chapter1_monster7 : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Player"))
         {
-            player.PlayerHit();
+            player.PlayerHit(gameObject.tag);
         }
     }
 }
