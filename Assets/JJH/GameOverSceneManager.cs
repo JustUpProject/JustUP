@@ -7,6 +7,6 @@ public class GameOverSceneManager : MonoBehaviour
     // Update is called once per frame
     public void StartMainBtn()
     {
-        SceneManager.LoadScene("Sangjin_Scene");
+        SceneManager.LoadScene("Title_Scenes_test");
     }
 }

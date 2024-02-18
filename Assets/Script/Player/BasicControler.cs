@@ -250,34 +250,10 @@ public class BasicControler : MonoBehaviour
     }
 
 
-    //public bool FloorCheck()
-    //{
-    //    Vector2 origin = this.transform.position;
-    //    Vector2 direction = Vector2.down;
-
-    //    RaycastHit2D[] hits = Physics2D.BoxCastAll(origin, new Vector3(0.3f, 0.01f, 0), 0.0f, direction, rayLengthFloor);
-        
-
-    //    foreach (RaycastHit2D hit in hits)
-    //    {
-            
-    //        if (hit.collider.CompareTag("Floor"))
-    //        {
-    //            Debug.Log("바닥");
-    //            InitJump();
-    //            this.direction = true;
-    //            state = PlayerState.Move;
-    //            return true;
-    //        }
-    //    }
-
-    //    return false;
-    //}
-
     private void OnDrawGizmos()
     {
-        Vector2 origin = this.transform.position;
-        Vector2 direction = Vector2.down;
+        Vector2 origin = this.transform.position - new Vector3(-0.5f,0,0);
+        Vector2 direction = Vector2.left;
 
         Gizmos.color = Color.yellow;
         RaycastHit2D hits = Physics2D.Raycast(origin, direction, rayLengthFloor);
@@ -288,67 +264,30 @@ public class BasicControler : MonoBehaviour
         }
     }
 
-    //public int WallCheck()
-    //{
-    //    Vector2 origin = this.transform.position;
-
-    //    Vector2 direction = Vector2.right;
-    //    RaycastHit2D hits = Physics2D.Raycast(origin, direction, rayLength, wallMask);
-
-    //    if(hits.collider != null)
-    //    {
-    //        if (hits.collider.CompareTag("Wall"))
-    //        {
-    //            InitJump();
-
-    //            wallPos = hits.collider.transform.position;
-    //            Turn(wallPos);
-    //            WallSliding();
-
-    //            state = PlayerState.Attach;
-
-    //            return 1;
-
-    //        }
-
-    //    }
-    //    direction = Vector2.left;
-
-    //    hits = Physics2D.Raycast(origin, direction, rayLength, wallMask);
-
-    //    if(hits.collider != null)
-    //    {
-    //        if (hits.collider.CompareTag("Wall"))
-    //        {
-    //            InitJump();
-
-    //            Turn(wallPos);
-    //            WallSliding();
-
-    //            state = PlayerState.Attach;
-    //        }
-    //    }
-
-    //    return 0;
-    //}
-
     public int ObjectCheck()
     {
         int result = 0;
 
-        Vector2 originF = this.transform.position;
+        Vector2 originF = this.transform.position - new Vector3(0, 0.35f, 0);
         Vector2 directionF = Vector2.down;
 
         RaycastHit2D[] hits = Physics2D.BoxCastAll(originF, new Vector3(0.3f, 0.01f, 0), 0.0f, directionF, rayLengthFloor);
 
         if (state == PlayerState.Attach)
         {
-            float rayDown = 0.5f;
+            originF = this.transform.position - new Vector3(0, 0.65f, 0);
+            float rayDown = 0.01f;
             hits = Physics2D.BoxCastAll(originF, new Vector3(0.3f, 0.01f, 0), 0.0f, directionF, rayDown);
         }
 
         foreach (RaycastHit2D hit in hits)
         {
+            ////////////
+            //if (hit.collider.CompareTag("Player"))
+            //{
+            //    Debug.Log("Player");
+            //}
+            //////
 
             if (hit.collider.CompareTag("Object"))
             {
@@ -381,7 +320,7 @@ public class BasicControler : MonoBehaviour
 
         Vector2 direction = Vector2.right;
         RaycastHit2D hitss = Physics2D.Raycast(origin, direction, rayLength, wallMask);
-
+       
         if (hitss.collider != null)
         {
             if (hitss.collider.CompareTag("Object") && AttachCan == true)
@@ -420,7 +359,7 @@ public class BasicControler : MonoBehaviour
         direction = Vector2.left;
 
         hitss = Physics2D.Raycast(origin, direction, rayLength, wallMask);
-
+       
         if (hitss.collider != null)
         {
             if (hitss.collider.CompareTag("Object") && AttachCan == true)
@@ -481,6 +420,8 @@ public class BasicControler : MonoBehaviour
 
     public void PlayerHit(string tag)
     {
+        if (dided == true)
+            return;
         if (useItem.ItemActivate == true)
         {
             useItem.UseItem = false;
@@ -495,6 +436,8 @@ public class BasicControler : MonoBehaviour
     }
     public void ObjectPlayerHit()
     {
+        if (dided == true)
+            return;
         playerHealth -= 1;
         state = PlayerState.Death;
     }
