@@ -7,6 +7,7 @@ using static UnityEngine.UI.Image;
 public class objectIce : MonoBehaviour
 {
     [SerializeField] LayerMask Player;
+    private Mesh IceMesh;
     Vector2 objectPos;
     Vector2 size;
     Vector2 dir;
@@ -20,8 +21,8 @@ public class objectIce : MonoBehaviour
     private void Start()
     {
         objectPos = transform.position;
-        size = transform.localScale;
-        distance = 0.5f;
+        size = transform.localScale*1.3f;
+        distance = 1f;
         playerMask = LayerMask.GetMask("Player");
 
         originSlide = BasicControler.Instance.slidingSpeed;
@@ -31,42 +32,28 @@ public class objectIce : MonoBehaviour
 
     private void Update()
     {
-       if(BasicControler.Instance.transform.position.x <this.gameObject.transform.position.x)
+        if (BasicControler.Instance.transform.position.x < this.gameObject.transform.position.x)
         {
             dir = Vector2.left;
-
-            RaycastHit2D[] hits = Physics2D.BoxCastAll(objectPos, size, 0f, dir, distance, playerMask);
-
-            foreach (RaycastHit2D hit in hits)
-            {
-                if (hit.collider.CompareTag("Player"))
-                {
-                    BasicControler.Instance.slidingSpeed = 1f;
-                }
-                else
-                    BasicControler.Instance.slidingSpeed = originSlide;
-            }
-
-
-        //RaycastHit2D[] hirs = Physics2D.BoxCastAll(vecL, directionL);
-
         }
-       else if(BasicControler.Instance.transform.position.x < this.gameObject.transform.position.x)
+        else if (BasicControler.Instance.transform.position.x > this.gameObject.transform.position.x)
         {
             dir = Vector2.right;
-            RaycastHit2D[] hits = Physics2D.BoxCastAll(objectPos, size, 0f, dir, distance, playerMask);
+        }
 
-            foreach (RaycastHit2D hit in hits)
+        RaycastHit2D[] hits = Physics2D.BoxCastAll(objectPos, size, 0f, dir, distance, playerMask);
+
+        foreach (RaycastHit2D hit in hits)
+        {
+            if (hit.collider.CompareTag("Player"))
             {
-                if (hit.collider.CompareTag("Player"))
-                {
-                    BasicControler.Instance.slidingSpeed = 1f;
-                }
+                if (BasicControler.Instance.state == PlayerState.Attach)
+                    BasicControler.Instance.slidingSpeed = 1.2f;
                 else
                     BasicControler.Instance.slidingSpeed = originSlide;
             }
         }
-
+        
     }
 
     private void OnCollisionStay2D(Collision2D collision)
