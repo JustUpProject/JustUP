@@ -43,5 +43,11 @@ public class HealthUIController : MonoBehaviour
             Health01.sprite = HealthOff;
             Health02.sprite = HealthOn;
         }
+        else if (BasicControler.Instance.PlayerHealth <= 0)
+        {
+            Health00.sprite = HealthOff;
+            Health01.sprite = HealthOff;
+            Health02.sprite = HealthOff;
+        }
     }
 }

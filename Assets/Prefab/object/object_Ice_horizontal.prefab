@@ -261,8 +261,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5704369539382841508}
-  - component: {fileID: 6545828227554145666}
   - component: {fileID: 8705801517348420564}
+  - component: {fileID: 2128135185433092129}
   m_Layer: 0
   m_Name: object_Ice_horizontal
   m_TagString: Object
@@ -288,24 +288,6 @@ Transform:
   - {fileID: 7246456167300455055}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6545828227554145666
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3477492623959804214}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 079d0c2700b44914aa711090aef5fb59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerMask:
-    serializedVersion: 2
-    m_Bits: 0
-  rChecker: 0
-  lChecker: 0
-  upChecker: 0
 --- !u!61 &8705801517348420564
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -351,3 +333,15 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4.7608175, y: 1.537261}
   m_EdgeRadius: 0
+--- !u!114 &2128135185433092129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3477492623959804214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 055530a28a9748349b05a417758c3bf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
