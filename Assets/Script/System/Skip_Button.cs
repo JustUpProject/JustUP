@@ -12,7 +12,7 @@ public class Skip_Button : MonoBehaviour
         Item_Controller.Instance.gameData.Inventory[2] = 63;
         Item_Controller.Instance.gameData.SavePoint = new Vector3(0, -3, 0);
         BasicControler.Instance.ResetPos();
-        BasicControler.Instance.PlayerHealth = 3;
+        BasicControler.Instance.PlayerHealth = 5;
         if (BasicControler.Instance.transform.localScale.x < 0)
             BasicControler.Instance.transform.localScale = new Vector3(BasicControler.Instance.transform.localScale.x * -1, BasicControler.Instance.transform.localScale.y, BasicControler.Instance.transform.localScale.z);
 
