@@ -383,8 +383,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 947329036}
-        m_TargetAssemblyTypeName: go_select_scene, Assembly-CSharp
-        m_MethodName: SceneChange
+        m_TargetAssemblyTypeName: Skip_Button, Assembly-CSharp
+        m_MethodName: Skip
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -414,7 +414,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 90b68929dcdc4ae4b8d2e72f9ef0798d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b3060434ed487f842baef426b37dd033, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -441,7 +441,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 947329031}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28fb96eff7e9f804986749dfaaedec1d, type: 3}
+  m_Script: {fileID: 11500000, guid: 1657e2e8706eae644bba1e6dd4afc47c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1172052542
@@ -688,12 +688,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 720, y: 1280}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -859,7 +859,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4d3867bee641c3842a16a3dec804d310, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0d5b20fb7c3143043923295e28318b27, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

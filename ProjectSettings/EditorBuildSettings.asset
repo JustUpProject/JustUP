@@ -5,12 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Prefab/monster/monster_plant/monster_Plant.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 0
-    path: Assets/Scenes/Sangjin_Scene.unity
-    guid: c68a6ffe41102d14a989dda831f4e61e
+  - enabled: 1
+    path: Assets/Scenes/CutScence.unity
+    guid: f99b2fa8ff313da439428559b9bc4764
   - enabled: 1
     path: Assets/Scenes/Title_Scenes_test.unity
     guid: 0820337f0bd59664f90c307126190670
@@ -20,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameOver.unity
     guid: ad324a77c9358034696722b7dc2cfc46
+  - enabled: 1
+    path: Assets/Scenes/Tutorial.unity
+    guid: 2225ad84e6fad714dbe83674c1c912ca
   m_configObjects: {}
