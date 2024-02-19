@@ -50,6 +50,7 @@ public class ItemUI : MonoBehaviour
     {
         currentSlot = 0;
         ItemUpdate();
+        Item_Controller.Instance.item = this;
     }
 
     // Update is called once per frame

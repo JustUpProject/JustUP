@@ -22,6 +22,7 @@ public class Object_thorn : MonoBehaviour
         if(collision.gameObject.CompareTag("Player"))
         {
             player.PlayerHit(gameObject.tag);
+            Debug.Log("°¡½Ã");
         }
     }
 }
