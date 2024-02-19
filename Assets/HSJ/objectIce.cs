@@ -7,7 +7,6 @@ using static UnityEngine.UI.Image;
 public class objectIce : MonoBehaviour
 {
     [SerializeField] LayerMask Player;
-    private Mesh IceMesh;
     Vector2 objectPos;
     Vector2 size;
     Vector2 dir;
