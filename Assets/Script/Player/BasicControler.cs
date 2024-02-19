@@ -111,6 +111,7 @@ public class BasicControler : MonoBehaviour
                 animator.SetBool("Move", true);
                 animator.SetBool("Jump", false);
                 animator.SetBool("Attach", false);
+                animator.SetBool("SJumpActive", false);
                 MovePlayer();
             }
             else if (state == PlayerState.Jump)
@@ -120,6 +121,7 @@ public class BasicControler : MonoBehaviour
                 animator.SetBool("Move", false);
                 animator.SetBool("Attach", false);
                 animator.SetBool("Jump", true);
+                animator.SetBool("SJumpActive", false);
                 MovePlayer();
             }
             else if (state == PlayerState.Attach)// && AttachCan == true)
@@ -130,6 +132,7 @@ public class BasicControler : MonoBehaviour
                 animator.SetBool("Move", false);
                 animator.SetBool("Attach", true);
                 animator.SetBool("Jump", false);
+                animator.SetBool("SJumpActive", false);
                 //Turn(wallPos);
                 //AttachCan = false;
 
@@ -168,17 +171,19 @@ public class BasicControler : MonoBehaviour
 
     IEnumerator DeadCount()
     {
-        yield return new WaitForSeconds(1.24f);
-        if (playerHealth == 0)
+        playerHealth -= 1;
+        yield return new WaitForSeconds(1.0f);
+        if (playerHealth <= 0)
         {
-            Destroy(instance);
             SceneManager.LoadScene("GameOver");
         }
         GetComponent<Rigidbody2D>().gravityScale = 1.0f;
         animator.SetBool("Death", false);
-        transform.position = gameData.SavePoint;
         dided = false;
         state = PlayerState.Move;
+        if(transform.localScale.x < 0)
+            transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
+        transform.position = gameData.SavePoint;
         yield return null;
     }
 
@@ -467,6 +472,11 @@ public class BasicControler : MonoBehaviour
         }
     }
 
+    public void ResetPos()
+    {
+        transform.position = new Vector3(0, -3.0f, 0);
+    }
+
     public void PlayerHit(string tag)
     {
         if (dided == true)
@@ -480,24 +490,17 @@ public class BasicControler : MonoBehaviour
         {
             return;
         }
-        playerHealth -= 1;
+        
         state = PlayerState.Death;
     }
     public void ObjectPlayerHit()
     {
         if (dided == true)
             return;
-        playerHealth -= 1;
+
         state = PlayerState.Death;
     }
 
-    private void PlayerDie()
-    {
-        if(playerHealth == 0)
-        {
-            SceneManager.LoadScene("GameOver");
-        }
-    }
     public void SetDir()
     {
        direction = !direction;

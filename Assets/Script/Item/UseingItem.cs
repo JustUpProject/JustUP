@@ -38,7 +38,7 @@ public class UseingItem : MonoBehaviour
     void Update()
     {
         
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             
             if (item.Inventory[1] == 0)
@@ -81,6 +81,8 @@ public class UseingItem : MonoBehaviour
                 item.Inventory[1] = 63;
                 Item_Controller.Instance.item.ItemUpdate();
                 BasicControler.Instance.GetComponent<Rigidbody2D>().velocity = new Vector3(0, jumpPower, 0);
+                BasicControler.Instance.animator.SetBool("SJumpActive", true);
+                BasicControler.Instance.state = PlayerState.Skill;
             }
             else if (item.Inventory[1] == 4)
             {
