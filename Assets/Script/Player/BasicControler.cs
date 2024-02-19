@@ -29,6 +29,9 @@ public class BasicControler : MonoBehaviour
     private UseingItem useItem;
     public Animator animator;
 
+    public AudioClip playerJumpSound;
+    private AudioSource audioSource;
+
     public bool firstJumpAble = true; //�÷��̾��� ���� ���� ���� üũ
     public bool doubleJumpAble = true; //�÷��̾��� ���� ���� ���� ���� üũ
     public bool isSlidingOnWall = false; //�÷��̾ ���� ����ִ��� ���� üũ
@@ -91,7 +94,7 @@ public class BasicControler : MonoBehaviour
         useItem = GetComponent<UseingItem>();
         //if(partical == null)
         //    partical = this.AddComponent<SlidingPartical>();
-
+        audioSource = GetComponent<AudioSource>();
         transform.position = gameData.SavePoint;
     }
     
@@ -223,6 +226,8 @@ public class BasicControler : MonoBehaviour
             GetComponent<Rigidbody2D>().gravityScale = 1;
             isSlidingOnWall = false;
             GetComponent<Rigidbody2D>().velocity = new Vector3(0, jumpPower, 0);
+            audioSource.clip = playerJumpSound;
+            audioSource.Play();
             if (firstJumpAble == false)
             {
                 doubleJumpAble = false;
