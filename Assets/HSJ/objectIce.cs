@@ -47,8 +47,8 @@ public class objectIce : MonoBehaviour
         {
             if (hit.collider.CompareTag("Player"))
             {
-                if (BasicControler.Instance.state == PlayerState.Attach)
-                    BasicControler.Instance.slidingSpeed = 1.2f;
+                if (BasicControler.Instance.isSlidingOnWall==true)
+                    BasicControler.Instance.slidingSpeed = 10f;
                 else
                     BasicControler.Instance.slidingSpeed = originSlide;
             }
