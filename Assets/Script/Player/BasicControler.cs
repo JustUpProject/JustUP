@@ -29,10 +29,9 @@ public class BasicControler : MonoBehaviour
     private UseingItem useItem;
     public Animator animator;
 
-
     public bool firstJumpAble = true; //�÷��̾��� ���� ���� ���� üũ
     public bool doubleJumpAble = true; //�÷��̾��� ���� ���� ���� ���� üũ
-    private bool isSlidingOnWall = false; //�÷��̾ ���� ����ִ��� ���� üũ
+    public bool isSlidingOnWall = false; //�÷��̾ ���� ����ִ��� ���� üũ
     private bool velocityInit = true;
     private bool dided = false;
     [SerializeField] private bool AttachCan = true;
@@ -223,7 +222,6 @@ public class BasicControler : MonoBehaviour
             GetComponent<Rigidbody2D>().gravityScale = 1;
             isSlidingOnWall = false;
             GetComponent<Rigidbody2D>().velocity = new Vector3(0, jumpPower, 0);
-
             if (firstJumpAble == false)
             {
                 doubleJumpAble = false;
