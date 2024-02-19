@@ -28,7 +28,7 @@ public class settings_button : MonoBehaviour
             Debug.Log(resetting);
             resetting = true;
             Time.timeScale = 0f;
-            setting.SetActive(true);
+            setting.GetComponent<CanvasGroup>().alpha = 1.0f;
             
         }
 
@@ -37,9 +37,10 @@ public class settings_button : MonoBehaviour
             Debug.Log("1");
             resetting = false;
             Time.timeScale = 1.0f;
-            setting.SetActive(false);         
+            setting.GetComponent<CanvasGroup>().alpha = 0.0f;
         }
  
     }
+    
 
 }
