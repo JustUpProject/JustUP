@@ -87,7 +87,7 @@ public class BasicControler : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         state = PlayerState.Move;
-        playerHealth = 3;
+        playerHealth = 5;
         gameData = Resources.Load<GameData>("ScriptableObject/Datas");
         partical = GetComponent<SlidingPartical>();
         PlayerCollider = GetComponent<BoxCollider2D>();
