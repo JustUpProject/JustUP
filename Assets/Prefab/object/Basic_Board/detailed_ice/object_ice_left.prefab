@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4038612019979527949}
   - component: {fileID: 6643935526431839465}
   - component: {fileID: 6558632282363370989}
-  - component: {fileID: 3919532289341248992}
+  - component: {fileID: 5875659955501142227}
   m_Layer: 8
   m_Name: object_ice_left
   m_TagString: Object
@@ -131,7 +131,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.6, y: 1.6}
   m_EdgeRadius: 0
---- !u!114 &3919532289341248992
+--- !u!114 &5875659955501142227
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -140,12 +140,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 5869089637432409571}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 079d0c2700b44914aa711090aef5fb59, type: 3}
+  m_Script: {fileID: 11500000, guid: 055530a28a9748349b05a417758c3bf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMask:
-    serializedVersion: 2
-    m_Bits: 64
-  rChecker: 0
-  lChecker: 1
-  upChecker: 1

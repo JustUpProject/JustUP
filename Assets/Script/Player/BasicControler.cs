@@ -36,6 +36,7 @@ public class BasicControler : MonoBehaviour
     private bool dided = false;
     [SerializeField] private bool AttachCan = true;
     private bool AttachTp = false;
+    public bool IceAttach = false;
 
     public float rayLength;
     public float rayLengthFloor;
@@ -240,6 +241,13 @@ public class BasicControler : MonoBehaviour
         isSlidingOnWall = true;
 
         GetComponent<Rigidbody2D>().gravityScale = slidingSpeed;
+
+        if (IceAttach == true)
+        {
+            Debug.Log("얼음");
+            GetComponent<Rigidbody2D>().gravityScale = 1.3f;
+            IceAttach = false;
+        }
         if (partical.isParticleCycle == true)
             partical.SpwanParticle();
         
@@ -316,6 +324,8 @@ public class BasicControler : MonoBehaviour
             }
         }
 
+
+
         if (AttachCan == true)
         {
             if (transform.lossyScale.x < 0)
@@ -345,6 +355,7 @@ public class BasicControler : MonoBehaviour
                         InitJump();
                         state = PlayerState.Attach;
 
+                        
                         wallPos = hitss.collider.transform.position;
                         Turn(wallPos);
                         WallSliding();
@@ -361,6 +372,48 @@ public class BasicControler : MonoBehaviour
 
 
                 }
+                //
+                //RaycastHit2D Ihitss = Physics2D.Raycast(origin, direction, rayLength, 9);
+
+                //if (Ihitss.collider != null && result != 1)
+                //{
+                //    if (Ihitss.collider.CompareTag("Object") && AttachCan == true)
+                //    {
+                //        Debug.Log("얼음얼음");
+                //        if (transform.localScale.x > 0)
+                //        {
+                //            transform.position -= new Vector3(0.18f, 0, 0);
+                //        }
+                //        else if (transform.localScale.x < 0)
+                //        {
+                //            transform.position += new Vector3(0.18f, 0, 0);
+                //        }
+
+                //        GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
+                //        AttachCan = false;
+                //        AttachTp = true;
+                //        InitJump();
+                //        state = PlayerState.Attach;
+
+                //        IceAttach = true;
+
+                //        wallPos = Ihitss.collider.transform.position;
+                //        Turn(wallPos);
+                //        WallSliding();
+
+                //        if (result == 2)
+                //        {
+                //            //Turn(wallPos);
+                //            return result;
+
+                //        }
+                //        result = 1;
+
+                //    }
+
+
+                //}
+                //
             }
 
             else if (transform.lossyScale.x > 0)
@@ -391,6 +444,7 @@ public class BasicControler : MonoBehaviour
                         InitJump();
                         state = PlayerState.Attach;
 
+                        
                         wallPos = hitss.collider.transform.position;
                         Turn(wallPos);
                         WallSliding();
@@ -408,7 +462,53 @@ public class BasicControler : MonoBehaviour
                     }
 
                 }
+                //
+
+                //RaycastHit2D Ihitss = Physics2D.Raycast(origin, direction, rayLength, 9);
+
+                //if (Ihitss.collider != null && result != 1)
+                //{
+                //    if (Ihitss.collider.CompareTag("Object") && AttachCan == true)
+                //    {
+                //        if (transform.localScale.x > 0)
+                //        {
+                //            transform.position -= new Vector3(0.18f, 0, 0);
+                //        }
+                //        else if (transform.localScale.x < 0)
+                //        {
+                //            transform.position += new Vector3(0.18f, 0, 0);
+                //        }
+
+                //        Debug.Log("얼음얼음");
+
+                //        GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
+                //        AttachCan = false;
+                //        AttachTp = true;
+                //        InitJump();
+                //        state = PlayerState.Attach;
+
+                //        IceAttach = true;
+
+                //        wallPos = Ihitss.collider.transform.position;
+                //        Turn(wallPos);
+                //        WallSliding();
+
+
+
+                //        if (result == 2)
+                //        {
+                //            //Turn(wallPos);
+                //            return result;
+
+                //        }
+                //        result = 1;
+
+                //    }
+
+                //}
+                //
             }
+
 
         }
 
